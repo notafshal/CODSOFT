@@ -15,7 +15,7 @@ const Carasoul = () => {
         opts={{
           align: "start",
         }}
-        className="w-full max-w-lg mx-auto"
+        className="w-full max-w-5xl mx-auto"
       >
         <CarouselContent>
           {fruits.map((fruit, index) => (
