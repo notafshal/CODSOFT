@@ -4,6 +4,7 @@ import cors from "cors";
 
 import dotenv from "dotenv";
 import userRouter from "./controller/User";
+import auth from "./controller/auth";
 dotenv.config();
 const app = express();
 app.use(express.json());
@@ -16,6 +17,7 @@ mongoose
   .catch((err) => console.log(`Connection to MongoDB failed , ${err}`));
 
 app.use("/api/users", userRouter);
+app.use("/api/auth/", auth);
 app.get("/", (req, res) => {
   res.send("hello");
 });

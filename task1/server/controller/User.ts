@@ -22,23 +22,5 @@ userRouter.post("/register", async (req: any, res: any) => {
     })
     .catch((err) => res.status(500).json({ error: err }));
 });
-userRouter.post("/login", async (req: any, res: any) => {
-  try {
-    const { email, password } = req.body;
-    const user: any = await UserModel.findOne({ email });
-    console.log(user);
-    if (user) {
-      const passwordMatch = await bcrypt.compare(password, user.password);
-      if (passwordMatch) {
-        res.json("Success");
-      } else {
-        res.status(401).json("Password does not match");
-      }
-    } else {
-      res.status(404).json("User does not exist");
-    }
-  } catch (err) {
-    res.status(500).json({ error: err });
-  }
-});
+
 export default userRouter;

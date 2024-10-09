@@ -10,12 +10,13 @@ const Login = () => {
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleLogin = (e: any) => {
+  const handleLogin = async (e: any) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:5000/api/users/login", { email, password })
+    await axios
+      .post("http://localhost:5000/api/auth/login", { email, password })
       .then((result) => {
-        if (result.data === "Success") {
+        if (result.status === 200) {
+          localStorage.setItem("token", result.data);
           router.push("/");
         } else {
           alert(result.data);
