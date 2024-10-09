@@ -4,16 +4,22 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const router = useRouter();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handelLogin = (e: any) => {
+  const handleLogin = (e: any) => {
     e.preventDefault();
     axios
       .post("http://localhost:5000/api/users/login", { email, password })
       .then((result) => {
-        console.log(result);
+        if (result.data === "Success") {
+          router.push("/");
+        } else {
+          alert(result.data);
+        }
       })
       .catch((err) => console.log(err));
   };
@@ -23,11 +29,11 @@ const Login = () => {
         <div className="bg-gray-200 h-screen w-screen md:h-96 md:w-96 mx-auto rounded-md">
           <div className="flex flex-col mx-28 my-28 lg:my-20 gap-4">
             <p className="text-center">Login</p>
-            <form className="flex flex-col gap-4" onSubmit={handelLogin}>
+            <form className="flex flex-col gap-4" onSubmit={handleLogin}>
               <input
                 name="email"
                 value={email}
-                onChange={(e) => e.target.value}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="email"
                 type="text"
                 className="p-1 rounded-md"
@@ -36,7 +42,7 @@ const Login = () => {
               <input
                 name="password"
                 value={password}
-                onChange={(e) => e.target.value}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="password"
                 type="password"
                 className="p-1 rounded-md"
