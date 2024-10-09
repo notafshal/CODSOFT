@@ -1,23 +1,17 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { BsCart4 } from "react-icons/bs";
 import Link from "next/link";
 import { FcBusinessman } from "react-icons/fc";
+import { useAuth } from "@/app/context/AuthContext";
 const Navbar = () => {
-  const [user, setUser] = useState<string | null>(null);
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const token: any = localStorage.getItem("token");
-    setUser(token);
-  }, []);
+  const { user, setUser } = useAuth();
 
   const handleSignout = () => {
     localStorage.removeItem("token");
     setUser(null);
     alert("Logged out");
-    window.location.reload();
   };
   return (
     <>

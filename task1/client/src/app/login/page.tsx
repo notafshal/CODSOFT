@@ -5,10 +5,13 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/app/context/AuthContext";
+
 const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
+  const { setUser } = useAuth();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleLogin = async (e: any) => {
     e.preventDefault();
@@ -16,13 +19,17 @@ const Login = () => {
       .post("http://localhost:5000/api/auth/login", { email, password })
       .then((result) => {
         if (result.status === 200) {
-          localStorage.setItem("token", result.data);
+          localStorage.setItem("token", result.data.token);
+          setUser(result.data.token);
           router.push("/");
         } else {
           alert(result.data);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        alert("An error occurred. Please try again.");
+      });
   };
   return (
     <>
