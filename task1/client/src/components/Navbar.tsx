@@ -15,20 +15,20 @@ const Navbar = () => {
   };
   return (
     <>
-      <nav className="w-screen sticky  p-4 flex flex-row justify-between">
+      <nav className="w-screen sticky   p-4 flex flex-row justify-between">
         <p>Somefin Fishy</p>
         <div className="flex flex-row">
           <div className="flex flex-row ">
             <input
               type="text"
               placeholder="Search for ..."
-              className="rounded-md lg:w-96 border-2 "
+              className="rounded-md w-36 lg:w-96 border-2 "
             />
-            <CiSearch className="-mx-5 mt-1" />
+            <CiSearch className="-mx-5 mt-1 " />
           </div>
         </div>
 
-        <div className="flex flex-row gap-10 hover:cursor-pointer">
+        <div className="flex flex-row lg:gap-10 hover:cursor-pointer">
           <div className="mt-1 mx-5">
             <BsCart4 className="text-lg" />
           </div>
