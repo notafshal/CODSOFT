@@ -16,7 +16,12 @@ const Navbar = () => {
   return (
     <>
       <nav className="w-screen sticky   p-4 flex flex-row justify-between">
-        <p>Somefin Fishy</p>
+        <Link href="/">
+          <p className="font-semibold p-1">
+            Trendy
+            <span className="text-white bg-black p-1 font-semibold">Cart</span>
+          </p>
+        </Link>
         <div className="flex flex-row">
           <div className="flex flex-row ">
             <input

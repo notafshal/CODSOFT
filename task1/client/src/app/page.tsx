@@ -1,17 +1,9 @@
 "use client";
 
+import ProductCard from "@/components/ProductCard";
 import axios from "axios";
-import Image from "next/image";
-import { useEffect, useState } from "react";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [product, setProduct] = useState([]);
@@ -27,27 +19,16 @@ export default function Home() {
   return (
     <>
       {/* <Carasoul /> */}
+      <div className="my-2 mx-6">
+        <p>
+          All <span className="text-white bg-black p-1">Products</span>
+        </p>
+      </div>
       {/*  eslint-disable-next-line @typescript-eslint/no-explicit-any */}
       {product.map((data: any) => (
-        <div key={data.id}>
-          <Card>
-            <CardHeader>
-              <CardTitle>{data.title}</CardTitle>
-              <CardDescription>{data.description}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Image
-                src={data.image}
-                width={100}
-                height={100}
-                alt="product image"
-              />
-            </CardContent>
-            <CardFooter>
-              <p>Rs. {data.price}</p>
-            </CardFooter>
-          </Card>
-        </div>
+        <>
+          <ProductCard key={data.id} data={data} />
+        </>
       ))}
     </>
   );
