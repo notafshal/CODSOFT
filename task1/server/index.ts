@@ -17,6 +17,7 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.log(`Connection to MongoDB failed , ${err}`));
 
+app.use("/uploads", express.static("uploads"));
 app.use("/api/users", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/auth/", auth);
