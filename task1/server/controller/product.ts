@@ -51,6 +51,8 @@ productRouter.post("/", upload.single("image"), (req: any, res: any) => {
 
   const product = new productModel({
     title: body.title,
+    author: body.author,
+    stock: body.stock,
     price: body.price,
     description: body.description,
     category: body.category,

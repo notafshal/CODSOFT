@@ -18,8 +18,8 @@ const Navbar = () => {
       <nav className="w-screen sticky   p-4 flex flex-row justify-between">
         <Link href="/">
           <p className="font-semibold p-1">
-            Trendy
-            <span className="text-white bg-black p-1 font-semibold">Cart</span>
+            Book
+            <span className="text-white bg-black p-1 font-semibold">Wagon</span>
           </p>
         </Link>
         <div className="flex flex-row">

@@ -14,6 +14,8 @@ import { useRouter } from "next/navigation";
 const AddProduct = () => {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState(0);
+  const [stock, setStock] = useState(0);
+  const [author, setAuthor] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [image, setImage] = useState<File | null>(null);
@@ -23,7 +25,9 @@ const AddProduct = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("title", title);
+    formData.append("author", author);
     formData.append("price", price.toString());
+    formData.append("stock", stock.toString());
     formData.append("description", description);
     formData.append("category", category);
     if (image) {
@@ -40,6 +44,8 @@ const AddProduct = () => {
           setPrice(0);
           setDescription("");
           setCategory("");
+          setStock(0);
+          setAuthor("");
           setImage(null);
         }
       })
@@ -71,6 +77,15 @@ const AddProduct = () => {
               placeholder="Product Name"
               className="border-2"
             />
+            <label>Author Name : </label>
+            <input
+              type="text"
+              name="author"
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
+              placeholder="Product Name"
+              className="border-2"
+            />
             <br />
             <label>Price : </label>
             <input
@@ -78,6 +93,15 @@ const AddProduct = () => {
               name="price"
               value={price}
               onChange={(e) => setPrice(Number(e.target.value))}
+              placeholder="Price"
+            />
+            <br />
+            <label>Stock : </label>
+            <input
+              type="number"
+              name="stock"
+              value={stock}
+              onChange={(e) => setStock(Number(e.target.value))}
               placeholder="Price"
             />
             <br />

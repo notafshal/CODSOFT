@@ -2,6 +2,7 @@
 
 import ProductCard from "@/components/ProductCard";
 import axios from "axios";
+import Link from "next/link";
 
 import { useEffect, useState } from "react";
 
@@ -27,7 +28,9 @@ export default function Home() {
       {/*  eslint-disable-next-line @typescript-eslint/no-explicit-any */}
       {product.map((data: any) => (
         <>
-          <ProductCard key={data.id} data={data} />
+          <Link key={data._id} href={`/products/${data._id}`}>
+            <ProductCard data={data} />
+          </Link>
         </>
       ))}
     </>
