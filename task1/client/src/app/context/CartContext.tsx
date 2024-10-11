@@ -1,6 +1,7 @@
+"use client";
 import { createContext, useContext, useState } from "react";
 interface ProductDetails {
-  id: number;
+  id: string;
   title: string;
   author: string;
   price: number;
@@ -8,12 +9,13 @@ interface ProductDetails {
   category: string;
   rating: number;
   stock: number;
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   image: any;
 }
 interface CartContextType {
   cartItems: ProductDetails[];
   addToCart: (product: ProductDetails) => void;
+  removeFromCart: (id: string) => void;
   clearCart: () => void;
 }
 
@@ -24,6 +26,10 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
   const addToCart = (item: ProductDetails) => {
     setCartItems((prevItems) => [...prevItems, item]);
+    return item;
+  };
+  const removeFromCart = (id: string) => {
+    setCartItems((prevCart) => prevCart.filter((item) => item.id !== id));
   };
 
   const clearCart = () => {
@@ -31,10 +37,18 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, clearCart }}>
+    <CartContext.Provider
+      value={{ cartItems, addToCart, removeFromCart, clearCart }}
+    >
       {children}
     </CartContext.Provider>
   );
 };
 
-export const useCart = () => useContext(CartContext);
+export const useCart = () => {
+  const context = useContext(CartContext);
+  if (context === undefined) {
+    throw new Error("useCart must be used within a CartProvider");
+  }
+  return context;
+};

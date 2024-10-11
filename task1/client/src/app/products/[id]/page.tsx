@@ -1,4 +1,5 @@
 "use client";
+import { useCart } from "@/app/context/CartContext";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import Image from "next/image";
@@ -18,7 +19,8 @@ interface Product {
 
 const Product = ({ params }: { params: { id: number } }) => {
   const [products, setProducts] = useState<Product | null>();
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState<number>(0);
+  const { addToCart } = useCart();
   useEffect(() => {
     axios.get(`http://localhost:5000/api/product/${params.id}`).then((res) => {
       console.log(res.data);
@@ -28,14 +30,20 @@ const Product = ({ params }: { params: { id: number } }) => {
 
   const AddQuantity = () => {
     if (products && products.stock !== undefined) {
-      if (quantity <= products?.stock - 1) {
-        setQuantity(quantity + 1);
+      if (Number(quantity) <= products?.stock - 1) {
+        setQuantity(Number(quantity) + 1);
       }
     }
   };
   const RemoveQuantity = () => {
-    if (quantity > 0) {
-      setQuantity(quantity - 1);
+    if (Number(quantity) > 0) {
+      setQuantity(Number(quantity) - 1);
+    }
+  };
+  const handleAddtoCart = () => {
+    if (products && quantity !== 0) {
+      const productWithQuantity = { ...products, quantity };
+      addToCart(productWithQuantity);
     }
   };
   return (
@@ -67,7 +75,7 @@ const Product = ({ params }: { params: { id: number } }) => {
           <Button onClick={RemoveQuantity}>-</Button>
           <div className="flex gap-3 my-2">
             <Button>Buy Now</Button>
-            <Button>Add to cart</Button>
+            <Button onClick={handleAddtoCart}>Add to cart</Button>
           </div>
         </div>
       </div>

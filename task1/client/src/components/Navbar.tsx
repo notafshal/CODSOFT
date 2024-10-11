@@ -35,7 +35,9 @@ const Navbar = () => {
 
         <div className="flex flex-row lg:gap-10 hover:cursor-pointer">
           <div className="mt-1 mx-5">
-            <BsCart4 className="text-lg" />
+            <Link href="/cart">
+              <BsCart4 className="text-lg" />
+            </Link>
           </div>
           <div>
             {user ? (
