@@ -1,3 +1,4 @@
+"use client";
 import { FaPlus } from "react-icons/fa";
 
 import {
@@ -8,8 +9,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/app/context/AuthContext";
 
 const AddProduct = () => {
   const [title, setTitle] = useState("");
@@ -20,12 +22,19 @@ const AddProduct = () => {
   const [category, setCategory] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const router = useRouter();
+  const { user } = useAuth();
+  useEffect(() => {
+    console.log(user);
+  });
+  const userId = user;
 
   const handleAddProduct = (e: React.FormEvent<HTMLFormElement>) => {
+    console.log(user);
     e.preventDefault();
     const formData = new FormData();
     formData.append("title", title);
     formData.append("author", author);
+    formData.append("userId", userId);
     formData.append("price", price.toString());
     formData.append("stock", stock.toString());
     formData.append("description", description);
@@ -33,7 +42,7 @@ const AddProduct = () => {
     if (image) {
       formData.append("image", image);
     }
-    console.log(formData);
+
     axios
       .post("http://localhost:5000/api/product", formData)
       .then((result) => {

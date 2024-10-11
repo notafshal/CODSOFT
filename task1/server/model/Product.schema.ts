@@ -9,6 +9,10 @@ const productSchema = new mongoose.Schema({
   category: { type: String },
   rating: { type: Number },
   image: { type: String },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users",
+  },
 });
 const productModel = mongoose.model("product", productSchema);
 export default productModel;

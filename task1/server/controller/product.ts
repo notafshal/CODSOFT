@@ -2,6 +2,8 @@ import express, { Request, Response } from "express";
 import productModel from "../model/Product.schema";
 import multer, { FileFilterCallback } from "multer";
 import path from "path";
+import mongoose from "mongoose";
+import UserModel from "../model/User.schema";
 
 const productRouter = express.Router();
 
@@ -34,15 +36,18 @@ const fileFilter = (
 
 const upload = multer({ storage, fileFilter });
 
-productRouter.post("/", upload.single("image"), (req: any, res: any) => {
+productRouter.post("/", upload.single("image"), async (req: any, res: any) => {
   const body = req.body;
   const file = req.file;
-
+  const user = await UserModel.findById(body.userId);
   if (!body) {
     return res.status(400).json({ error: "Missing content" });
   }
   if (!file) {
     return res.status(400).json({ error: "Image upload failed" });
+  }
+  if (!user) {
+    return res.status(404).json({ error: "user not found" });
   }
 
   const imagePath = `${req.protocol}://${req.get("host")}/uploads/${
@@ -58,13 +63,16 @@ productRouter.post("/", upload.single("image"), (req: any, res: any) => {
     category: body.category,
     rating: body.rating,
     image: imagePath,
+    user: user?._id,
   });
 
-  product
-    .save()
+  const savedProduct = await product.save();
+  user.product = user?.product?.concat(savedProduct._id);
+  await user
+    ?.save()
     .then((result) => {
-      return res.status(200).json({
-        message: "Product registration successful",
+      res.json({
+        message: "Product saved successfully",
         product: result,
       });
     })
