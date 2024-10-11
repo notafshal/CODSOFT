@@ -13,7 +13,7 @@ const Cart = () => {
   console.log(totalPrice);
   useEffect(() => {
     setTotalPrice(totalPrice);
-  }, [cartItems]);
+  }, []);
   return (
     <>
       Cart

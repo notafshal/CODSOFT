@@ -68,11 +68,14 @@ const Product = ({ params }: { params: { id: number } }) => {
             Rs. {products?.price}
           </p>
           <p className="lg:text-xl">In Stock : {products?.stock}</p>
-          <Button onClick={AddQuantity}>+</Button>
-          <p>
-            Quantity <span className="bg-white p-1 w-2">{quantity}</span>
-          </p>
-          <Button onClick={RemoveQuantity}>-</Button>
+          <div className="flex flex-row gap-4">
+            <p>Quantity</p>
+            <Button onClick={AddQuantity}>+</Button>
+
+            <p className="bg-white p-1 w-2">{quantity}</p>
+
+            <Button onClick={RemoveQuantity}>-</Button>
+          </div>
           <div className="flex gap-3 my-2">
             <Button>Buy Now</Button>
             <Button onClick={handleAddtoCart}>Add to cart</Button>
