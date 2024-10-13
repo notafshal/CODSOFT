@@ -9,20 +9,21 @@ cartRouter.get("/", (req: Request, res: Response) => {
     .populate("user")
     .then((result) => {
       res.json(result);
+      console.log(result);
     })
     .catch((err) => res.json("cannot fetch data from cart " + err));
 });
 
 cartRouter.post("/", (req: any, res: any) => {
-  const { product, user, total } = req.body;
-  console.log("----");
-  if (!product || !user || !total) {
+  const { product, user } = req.body;
+
+  if (!product || !user) {
     return res.status(400).json("cannot get cart data");
   }
+
   const cartItems = new cartModel({
     product,
     user,
-    total,
   });
   cartItems
     .save()
