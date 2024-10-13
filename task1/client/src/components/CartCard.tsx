@@ -14,7 +14,6 @@ interface Product {
   title: string;
   price: number;
   quantity: number;
-  description: string;
 }
 
 const CartCard = ({

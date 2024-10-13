@@ -1,11 +1,13 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-
 import dotenv from "dotenv";
+
 import userRouter from "./controller/User";
 import auth from "./controller/auth";
 import productRouter from "./controller/product";
+import cartRouter from "./controller/cart";
+
 dotenv.config();
 const app = express();
 app.use(express.json());
@@ -18,6 +20,7 @@ mongoose
   .catch((err) => console.log(`Connection to MongoDB failed , ${err}`));
 
 app.use("/uploads", express.static("uploads"));
+app.use("/api/cart", cartRouter);
 app.use("/api/users", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/auth/", auth);
