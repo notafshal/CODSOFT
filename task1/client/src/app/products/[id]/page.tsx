@@ -1,12 +1,13 @@
 "use client";
-import { useCart } from "@/app/context/CartContext";
+import { useAuth } from "@/app/context/AuthContext";
+
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-interface Product {
-  id: string;
+interface Products {
+  _id: string;
   title: string;
   author: string;
   description: string;
@@ -18,9 +19,10 @@ interface Product {
 }
 
 const Product = ({ params }: { params: { id: number } }) => {
-  const [products, setProducts] = useState<Product | null>();
+  const [products, setProducts] = useState<Products | null>();
   const [quantity, setQuantity] = useState<number>(0);
-  const { addToCart } = useCart();
+
+  const { user } = useAuth();
   useEffect(() => {
     axios.get(`http://localhost:5000/api/product/${params.id}`).then((res) => {
       console.log(res.data);
@@ -40,10 +42,20 @@ const Product = ({ params }: { params: { id: number } }) => {
       setQuantity(Number(quantity) - 1);
     }
   };
-  const handleAddtoCart = () => {
+  const handleAddtoCart = async () => {
+    console.log(user);
+    console.log(products?._id);
+    console.log(quantity);
+
     if (products && quantity !== 0) {
-      const productWithQuantity = { ...products, quantity };
-      addToCart(productWithQuantity);
+      const total = products?.price * quantity;
+      console.log(total);
+      await axios.post("http://localhost:5000/api/cart", {
+        product: products?._id,
+        user,
+        quantity,
+        total,
+      });
     }
   };
   return (

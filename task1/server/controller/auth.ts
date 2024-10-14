@@ -8,7 +8,6 @@ const auth = express.Router();
 auth.post("/login", async (req: any, res: any) => {
   const { email, password } = req.body;
   const user: any = await UserModel.findOne({ email });
-  console.log(user);
   const passwordCorrect =
     user === null ? false : bcrypt.compare(password, user.password);
 
@@ -19,8 +18,11 @@ auth.post("/login", async (req: any, res: any) => {
     email: user.email,
     id: user._id,
   };
-  const jwtSecret = process.env.JWT_SECRET || "defaultSecret";
+  const jwtSecret = process.env.JWT_KEY || "defaultSecret";
   const token = jwt.sign(userToken, jwtSecret, { expiresIn: "7d" });
-  res.status(200).send({ token, email: user.email, username: user.username });
+  res
+    .status(200)
+    .send({ token, email: user.email, username: user.username, id: user._id });
 });
+
 export default auth;
