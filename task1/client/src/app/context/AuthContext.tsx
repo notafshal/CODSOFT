@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-
+import jwt from "jsonwebtoken";
 interface AuthContextType {
   user: string | null;
   setUser: React.Dispatch<React.SetStateAction<string | null>>;
@@ -11,10 +11,24 @@ const AuthContext = createContext<AuthContextType | undefined | any>(" ");
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [user, setUser] = useState<string | null>(null);
+  const [user, setUser] = useState<{
+    id: string | null;
+    email: string | null;
+  } | null>(null);
   useEffect(() => {
     const token = localStorage.getItem("token");
-    setUser(token);
+    if (token) {
+      try {
+        const decoded = jwt.decode(token);
+        if (decoded && typeof decoded === "object") {
+          setUser({ id: decoded.id, email: decoded.email });
+        } else {
+          console.warn("Decoded token is null");
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
   }, []);
   return (
     <AuthContext.Provider value={{ user, setUser }}>

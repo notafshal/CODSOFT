@@ -43,19 +43,22 @@ const Product = ({ params }: { params: { id: number } }) => {
     }
   };
   const handleAddtoCart = async () => {
-    console.log(user);
-    console.log(products?._id);
-    console.log(quantity);
+    const token = localStorage.getItem("token");
 
     if (products && quantity !== 0) {
       const total = products?.price * quantity;
-      console.log(total);
-      await axios.post("http://localhost:5000/api/cart", {
-        product: products?._id,
-        user,
-        quantity,
-        total,
-      });
+
+      console.log(products?._id);
+      await axios.post(
+        "http://localhost:5000/api/cart",
+        {
+          product: products?._id,
+          userId: user.id,
+          quantity,
+          total,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
     }
   };
   return (

@@ -38,9 +38,9 @@ cartRouter.get("/:userId", async (req: any, res: any) => {
 
 cartRouter.post("/", verifyToken, (req: any, res: any) => {
   const userId = req.userId;
-
+  console.log(userId);
   const { product, quantity, total } = req.body;
-  console.log(userId, product, quantity, total);
+  console.log(userId, product);
   if (!product || !userId || !quantity || !total) {
     return res
       .status(400)

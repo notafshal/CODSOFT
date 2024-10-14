@@ -4,18 +4,16 @@ import UserModel from "../model/User.schema";
 
 const userRouter = express.Router();
 userRouter.get("/", async (req, res) => {
-  const users = await UserModel.find({})
-    .populate("product", {
-      title: 1,
-      author: 1,
-      stock: 1,
-      price: 1,
-      description: 1,
-      category: 1,
-      rating: 1,
-      image: 1,
-    })
-    .populate("cart");
+  const users = await UserModel.find({}).populate("product", {
+    title: 1,
+    author: 1,
+    stock: 1,
+    price: 1,
+    description: 1,
+    category: 1,
+    rating: 1,
+    image: 1,
+  });
   res.json(users);
 });
 

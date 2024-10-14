@@ -35,10 +35,10 @@ const verifyToken = async (
     const decoded = jwt.verify(token, jwtKey) as JwtPayload;
 
     req.userId = decoded.id;
+    next();
   } catch (err) {
     res.json(err);
   }
-  next();
 };
 
 export default verifyToken;
