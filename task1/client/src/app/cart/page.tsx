@@ -24,10 +24,15 @@ const Cart = () => {
     setTotalPrice((prevTotal) => prevTotal + productTotal);
   };
   useEffect(() => {
-    if (user && user._id) {
+    const token = localStorage.getItem("token");
+    if (user && user.id) {
       const fetchCart = async () => {
         try {
-          const response = await axios.get(`/api/cart/${user._id}`);
+          const response = await axios.get(
+            `http://localhost:5000/api/cart/${user.id}`,
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+          console.log(response);
           setCartItems(response.data);
         } catch (err) {
           console.log("Error fetching cart data", err);

@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import jwt from "jsonwebtoken";
 interface AuthContextType {
-  user: string | null;
+  user: { id: string | null; email: string | null } | null;
   setUser: React.Dispatch<React.SetStateAction<string | null>>;
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

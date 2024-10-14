@@ -24,21 +24,37 @@ cartRouter.get("/", (req: Request, res: Response) => {
     })
     .catch((err) => res.json("cannot fetch data from cart " + err));
 });
-cartRouter.get("/:userId", async (req: any, res: any) => {
+cartRouter.get("/:userId", verifyToken, async (req: any, res: any) => {
   const { userId } = req.params;
-  const userCart = await cartModel
+  console.log(userId);
+  await cartModel
     .find({ user: userId })
-    .populate("product")
-    .populate("users")
+    .populate("product", {
+      title: 1,
+      author: 1,
+      price: 1,
+      description: 1,
+      stock: 1,
+      category: 1,
+      rating: 1,
+      image: 1,
+      user: 1,
+    })
+    .populate("users", {
+      username: { type: String },
+      email: 1,
+      password: 1,
+      product: 0,
+      cart: 0,
+    })
     .then((cartItem) => res.status(200).json(cartItem))
     .catch((err) =>
-      res.status(404).json({ message: "Cart not found for this user." })
+      res.status(404).json({ message: "Cart not found for this user.", err })
     );
 });
 
 cartRouter.post("/", verifyToken, (req: any, res: any) => {
   const userId = req.userId;
-  console.log(userId);
   const { product, quantity, total } = req.body;
   console.log(userId, product);
   if (!product || !userId || !quantity || !total) {
