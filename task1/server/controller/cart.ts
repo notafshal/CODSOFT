@@ -37,10 +37,10 @@ cartRouter.get("/:userId", async (req: any, res: any) => {
 });
 
 cartRouter.post("/", verifyToken, (req: any, res: any) => {
-  const userId = req.userId.userId;
-  console.log(userId);
-  const { product, quantity, total } = req.body;
+  const userId = req.userId;
 
+  const { product, quantity, total } = req.body;
+  console.log(userId, product, quantity, total);
   if (!product || !userId || !quantity || !total) {
     return res
       .status(400)
