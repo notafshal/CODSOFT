@@ -27,7 +27,6 @@ cartRouter.get("/", (req: Request, res: Response) => {
     })
     .then((result) => {
       res.json(result);
-      console.log(result);
     })
     .catch((err) => res.json("cannot fetch data from cart " + err));
 });
@@ -99,5 +98,14 @@ cartRouter.post("/", verifyToken, async (req: any, res: any) => {
       res.status(500).json({ message: "Error adding to cart", err });
     });
 });
-
+cartRouter.delete("/:id", (req, res) => {
+  cartModel
+    .findByIdAndDelete(req.params.id)
+    .then((result) =>
+      res.status(200).json({ message: "delete successful", result })
+    )
+    .catch((err) => {
+      res.status(400).json({ message: "cannot delete the cart", err });
+    });
+});
 export default cartRouter;
