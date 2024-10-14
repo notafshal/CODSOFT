@@ -47,7 +47,13 @@ const Cart = () => {
       fetchCart();
     }
   }, [user]);
-
+  const handleDeleteCartItem = (id: string) => {
+    setCartItems((prevItems) => prevItems.filter((item) => item._id !== id));
+    const newTotal = cartItems
+      .filter((item) => item._id !== id) // exclude deleted item
+      .reduce((acc, item) => acc + item.total, 0);
+    setFinalTotal(newTotal);
+  };
   return (
     <>
       <p className="text-center my-4">
@@ -59,7 +65,7 @@ const Cart = () => {
         ) : (
           cartItems.map((item) => (
             <div key={item._id} className="mx-20 my-2">
-              <CartCard data={item} />
+              <CartCard data={item} onDelete={handleDeleteCartItem} />
             </div>
           ))
         )}
