@@ -2,31 +2,33 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import jwt from "jsonwebtoken";
+interface User {
+  id: string | null;
+  email: string | null;
+}
+
 interface AuthContextType {
-  user: { id: string | null; email: string | null } | null;
+  user: User | null;
   setUser: React.Dispatch<React.SetStateAction<string | null>>;
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const AuthContext = createContext<AuthContextType | undefined | any>(" ");
+const AuthContext = createContext<AuthContextType | undefined | any>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [user, setUser] = useState<{
-    id: string | null;
-    email: string | null;
-  } | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
-        const decoded = jwt.decode(token);
-        if (decoded && typeof decoded === "object") {
+        const decoded = jwt.decode(token) as { id: string; email: string };
+        if (decoded && decoded.id && decoded.email) {
           setUser({ id: decoded.id, email: decoded.email });
         } else {
-          console.warn("Decoded token is null");
+          console.warn("Invalid token structure:", decoded);
         }
       } catch (err) {
-        console.log(err);
+        console.error("Error decoding token:", err);
       }
     }
   }, []);

@@ -9,6 +9,7 @@ interface ProductDetails {
   category: string;
   rating: number;
   stock: number;
+  quantity: number;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   image: any;
 }

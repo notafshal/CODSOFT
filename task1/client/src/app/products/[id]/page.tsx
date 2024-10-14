@@ -25,7 +25,6 @@ const Product = ({ params }: { params: { id: number } }) => {
   const { user } = useAuth();
   useEffect(() => {
     axios.get(`http://localhost:5000/api/product/${params.id}`).then((res) => {
-      console.log(res.data);
       setProducts(res.data);
     });
   }, [params.id]);
@@ -44,11 +43,12 @@ const Product = ({ params }: { params: { id: number } }) => {
   };
   const handleAddtoCart = async () => {
     const token = localStorage.getItem("token");
-
+    if (!user || !user.id) {
+      console.error("User not authenticated or user ID is missing.");
+      return;
+    }
     if (products && quantity !== 0) {
       const total = products?.price * quantity;
-
-      console.log(products?._id);
       await axios.post(
         "http://localhost:5000/api/cart",
         {

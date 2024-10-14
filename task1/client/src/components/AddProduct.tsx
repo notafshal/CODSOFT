@@ -26,7 +26,6 @@ const AddProduct = () => {
   useEffect(() => {
     console.log(user);
   });
-  const userId = user;
 
   const handleAddProduct = (e: React.FormEvent<HTMLFormElement>) => {
     console.log(user);
@@ -34,7 +33,7 @@ const AddProduct = () => {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("author", author);
-    formData.append("userId", userId);
+    formData.append("userId", user?.id);
     formData.append("price", price.toString());
     formData.append("stock", stock.toString());
     formData.append("description", description);

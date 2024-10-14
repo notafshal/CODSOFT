@@ -15,7 +15,7 @@ userRouter.get("/", async (req, res) => {
       rating: 1,
       image: 1,
     })
-    .populate("cart", { product: 1, userId: 0, quantity: 2, total: 2 });
+    .populate("cart", { product: 1, userId: 1, quantity: 1, total: 1 });
   res.json(users);
 });
 

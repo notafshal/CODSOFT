@@ -67,7 +67,9 @@ productRouter.post("/", upload.single("image"), async (req: any, res: any) => {
   });
 
   const savedProduct = await product.save();
-  user.product = user?.product?.concat(savedProduct._id);
+  user.product = user.product
+    ? user.product.concat(savedProduct._id)
+    : [savedProduct._id];
   await user
     ?.save()
     .then((result) => {
@@ -81,8 +83,8 @@ productRouter.post("/", upload.single("image"), async (req: any, res: any) => {
     });
 });
 
-productRouter.get("/", (req, res) => {
-  productModel
+productRouter.get("/", async (req, res) => {
+  await productModel
     .find({})
     .then((product) => res.json(product))
     .catch((err) => res.json({ message: err }));
@@ -93,17 +95,25 @@ productRouter.get("/:id", (req, res) => {
     .then((product) => res.json(product))
     .catch((err) => res.json({ error: err }));
 });
-productRouter.patch("/:id", (req, res) => {
-  const body = req.body;
-  productModel
-    .findByIdAndUpdate(req.params.id)
-    .then((product) => res.json(product))
-    .catch((err) =>
-      res.json({
-        error: err,
-      })
-    );
-});
+productRouter.patch(
+  "/:id",
+  async (req: Request, res: Response): Promise<void> => {
+    const updateData = req.body;
+    try {
+      const updatedProduct = await productModel.findByIdAndUpdate(
+        req.params.id,
+        { $set: updateData },
+        { new: true, runValidators: true }
+      );
+      if (!updatedProduct) {
+        res.status(404).json({ message: "Product not found" });
+      }
+      res.status(200).json(updatedProduct);
+    } catch (err) {
+      res.status(500).json({ error: "Server error", details: err });
+    }
+  }
+);
 productRouter.delete("/:id", (req, res) => {
   productModel
     .findByIdAndDelete(req.params.id)
