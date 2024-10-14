@@ -85,11 +85,10 @@ const Product = ({ params }: { params: { id: number } }) => {
           <p className="lg:text-xl">In Stock : {products?.stock}</p>
           <div className="flex flex-row gap-4">
             <p>Quantity</p>
-            <Button onClick={AddQuantity}>+</Button>
-
-            <p className="bg-white p-1 w-2">{quantity}</p>
 
             <Button onClick={RemoveQuantity}>-</Button>
+            <p className="bg-white p-1 w-2">{quantity}</p>
+            <Button onClick={AddQuantity}>+</Button>
           </div>
           <div className="flex gap-3 my-2">
             <Button>Buy Now</Button>

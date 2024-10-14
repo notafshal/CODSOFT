@@ -3,10 +3,12 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
+import { MdDelete } from "react-icons/md";
 
 interface Product {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -20,7 +22,6 @@ interface CartItem {
   quantity: number;
 }
 const CartCard = ({ data }: { data: CartItem }) => {
-  console.log(data);
   if (!data.product) {
     console.log("data.product is null");
   }
@@ -28,22 +29,37 @@ const CartCard = ({ data }: { data: CartItem }) => {
 
   return (
     <>
-      <Card className="flex flex-row">
-        <CardHeader>
-          <Image
-            src={data.product.image}
-            width={150}
-            height={150}
-            alt={data.product.title}
-          />
-        </CardHeader>
-        <CardContent className="text-sm flex gap-2 flex-col">
-          <CardTitle>{data.product.title}</CardTitle>
-          <CardDescription>{data.product.author}</CardDescription>
-          <p>Rs. {data.product.price}</p>
-          <p>{data.quantity}</p>
-        </CardContent>
-        <div className="text-sm">Total:{productTotal}</div>
+      <Card className="flex flex-row justify-between">
+        <div className="flex flex-row w-1/3">
+          <CardHeader>
+            <Image
+              src={data.product.image}
+              width={50}
+              height={50}
+              alt={data.product.title}
+              className="w-24 h-24 "
+            />
+          </CardHeader>
+          <CardContent className="my-auto text-lg flex gap-2 flex-col">
+            <CardTitle className="w-1/2">{data.product.title}</CardTitle>
+            <CardDescription>{data.product.author}</CardDescription>
+          </CardContent>
+        </div>
+        <div className="my-auto  text-lg">
+          <p className="font-semibold">Rate:</p>
+          <p className="text-red-500">Rs. {data.product.price}</p>
+        </div>
+        <div className="my-auto  text-lg">
+          <p className="font-semibold">Quantity:</p>
+          <p className="text-red-500">Rs. {data.quantity}</p>
+        </div>{" "}
+        <div className="my-auto  text-lg">
+          <p className="font-semibold">Total:</p>
+          <p className="text-red-500">Rs. {productTotal}</p>
+        </div>
+        <CardFooter>
+          <MdDelete />
+        </CardFooter>
       </Card>
     </>
   );
