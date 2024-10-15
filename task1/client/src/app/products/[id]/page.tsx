@@ -1,5 +1,6 @@
 "use client";
 import { useAuth } from "@/app/context/AuthContext";
+import { useCart } from "@/app/context/CartContext";
 
 import { Button } from "@/components/ui/button";
 import axios from "axios";
@@ -21,7 +22,7 @@ interface Products {
 const Product = ({ params }: { params: { id: number } }) => {
   const [products, setProducts] = useState<Products | null>();
   const [quantity, setQuantity] = useState<number>(0);
-
+  const { addToCart } = useCart();
   const { user } = useAuth();
   useEffect(() => {
     axios.get(`http://localhost:5000/api/product/${params.id}`).then((res) => {
@@ -43,14 +44,13 @@ const Product = ({ params }: { params: { id: number } }) => {
   };
   const handleAddtoCart = async () => {
     const token = localStorage.getItem("token");
-
-    console.log(`user is ${user}`);
     if (!user || !user.id) {
       console.error("User not authenticated or user ID is missing.");
       return;
     }
     if (products && quantity !== 0) {
       const total = products?.price * quantity;
+
       await axios.post(
         "http://localhost:5000/api/cart",
         {
@@ -61,8 +61,14 @@ const Product = ({ params }: { params: { id: number } }) => {
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      addToCart({
+        ...products,
+        quantity,
+        id: products?._id,
+      });
     }
   };
+
   return (
     <>
       <div className="mx-5 lg:mx-32 my-5 lg:flex lg:flex-row lg:justify-around lg:bg-gray-100 lg:p-5 lg:rounded-lg">

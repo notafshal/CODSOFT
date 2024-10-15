@@ -121,13 +121,13 @@ const AddProduct = () => {
               placeholder="Description"
             ></textarea>
             <br />
-            <label> Category : </label>
+            <label> Genre : </label>
             <input
               type="text"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              name="category"
-              placeholder="Category"
+              name="genre"
+              placeholder="Genre"
             />
             <br />
 

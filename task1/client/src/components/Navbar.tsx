@@ -5,12 +5,18 @@ import { BsCart4 } from "react-icons/bs";
 import Link from "next/link";
 import { FcBusinessman } from "react-icons/fc";
 import { useAuth } from "@/app/context/AuthContext";
+
+import { useCart } from "@/app/context/CartContext";
+
 const Navbar = () => {
   const { user, setUser } = useAuth();
 
+  const { cartItemsCount, clearCart } = useCart();
+  console.log(cartItemsCount);
   const handleSignout = () => {
     localStorage.removeItem("token");
     setUser(null);
+    clearCart();
     alert("Logged out");
   };
   return (
@@ -37,6 +43,11 @@ const Navbar = () => {
           <div className="mt-1 mx-5">
             <Link href="/cart">
               <BsCart4 className="text-lg" />
+              {cartItemsCount > 0 && (
+                <span className="  -right-2 bg-red-600 text-white rounded-full text-xs px-2">
+                  {cartItemsCount}
+                </span>
+              )}
             </Link>
           </div>
           <div>
