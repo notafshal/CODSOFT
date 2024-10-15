@@ -7,17 +7,22 @@ import { FcBusinessman } from "react-icons/fc";
 import { useAuth } from "@/app/context/AuthContext";
 
 import { useCart } from "@/app/context/CartContext";
+import { useState } from "react";
 
 const Navbar = () => {
   const { user, setUser } = useAuth();
-
+  const [search, setSearch] = useState<string>("");
   const { cartItemsCount, clearCart } = useCart();
-  console.log(cartItemsCount);
   const handleSignout = () => {
     localStorage.removeItem("token");
     setUser(null);
     clearCart();
     alert("Logged out");
+  };
+  const searching = (e: any) => {
+    e.preventDefault;
+    setSearch(e.target.value);
+    console.log(search);
   };
   return (
     <>
@@ -32,10 +37,12 @@ const Navbar = () => {
           <div className="flex flex-row ">
             <input
               type="text"
+              value={search}
+              onChange={searching}
               placeholder="Search for ..."
               className="rounded-md w-36 lg:w-96 border-2 "
             />
-            <CiSearch className="-mx-5 mt-1 " />
+            <CiSearch className="-mx-6 mt-3 text-lg" />
           </div>
         </div>
 

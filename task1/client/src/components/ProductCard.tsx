@@ -12,15 +12,15 @@ interface Product {
   image: string;
   title: string;
   price: number;
-  description: string;
+  author: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ProductCard: React.FC<{ data: Product }> = ({ data }) => (
-  <Card>
+  <Card className=" hover:bg-gray-100 px-5 my-2">
     <CardHeader>
       <CardTitle>{data.title}</CardTitle>
-      <CardDescription>{data.description}</CardDescription>
+      <CardDescription>{data.author}</CardDescription>
     </CardHeader>
     <CardContent>
       <Image src={data.image} width={100} height={100} alt="product image" />

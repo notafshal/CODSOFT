@@ -1,6 +1,12 @@
 "use client";
 import { FaPlus } from "react-icons/fa";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -12,6 +18,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/context/AuthContext";
+import SelectGenre from "./SelectGenre";
 
 const AddProduct = () => {
   const [title, setTitle] = useState("");
@@ -91,7 +98,7 @@ const AddProduct = () => {
               name="author"
               value={author}
               onChange={(e) => setAuthor(e.target.value)}
-              placeholder="Product Name"
+              placeholder="Author Name"
               className="border-2"
             />
             <br />
@@ -122,15 +129,18 @@ const AddProduct = () => {
             ></textarea>
             <br />
             <label> Genre : </label>
-            <input
-              type="text"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              name="genre"
-              placeholder="Genre"
-            />
-            <br />
 
+            <br />
+            <Select onValueChange={(value) => setCategory(value)}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Genre" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="romantic">Romantic</SelectItem>
+                <SelectItem value="dark">Dark</SelectItem>
+                <SelectItem value="fictional">Fictional</SelectItem>
+              </SelectContent>
+            </Select>
             <label>Photo : </label>
             <input
               type="file"

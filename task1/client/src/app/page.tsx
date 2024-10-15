@@ -13,7 +13,6 @@ export default function Home() {
       .get("http://localhost:5000/api/product")
       .then((result) => {
         setProduct(result.data);
-        console.log(result.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -26,13 +25,15 @@ export default function Home() {
         </p>
       </div>
       {/*  eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-      {product.map((data: any) => (
-        <>
-          <Link key={data._id} href={`/products/${data._id}`}>
-            <ProductCard data={data} />
-          </Link>
-        </>
-      ))}
+      <div className="lg:grid lg:grid-cols-3 gap-4 mx-6">
+        {product.map((data: any) => (
+          <div>
+            <Link key={data._id} href={`/products/${data._id}`}>
+              <ProductCard data={data} />
+            </Link>
+          </div>
+        ))}
+      </div>
     </>
   );
 }

@@ -39,7 +39,6 @@ const CartCard = ({
     axios
       .delete(`http://localhost:5000/api/cart/${data._id}`)
       .then((result) => {
-        console.log(result);
         onDelete(data._id);
       })
       .catch((err) => console.log(err));

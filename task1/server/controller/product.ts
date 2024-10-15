@@ -4,6 +4,8 @@ import multer, { FileFilterCallback } from "multer";
 import path from "path";
 import mongoose from "mongoose";
 import UserModel from "../model/User.schema";
+import checkAdmin from "../middleware/checkAdmin";
+import verifyToken from "../middleware/verifyToken";
 
 const productRouter = express.Router();
 
@@ -36,52 +38,59 @@ const fileFilter = (
 
 const upload = multer({ storage, fileFilter });
 
-productRouter.post("/", upload.single("image"), async (req: any, res: any) => {
-  const body = req.body;
-  const file = req.file;
-  const user = await UserModel.findById(body.userId);
-  if (!body) {
-    return res.status(400).json({ error: "Missing content" });
-  }
-  if (!file) {
-    return res.status(400).json({ error: "Image upload failed" });
-  }
-  if (!user) {
-    return res.status(404).json({ error: "user not found" });
-  }
+productRouter.post(
+  "/",
+  verifyToken,
+  checkAdmin,
+  upload.single("image"),
+  async (req: any, res: any) => {
+    const body = req.body;
+    const file = req.file;
+    const user = await UserModel.findById(body.userId);
 
-  const imagePath = `${req.protocol}://${req.get("host")}/uploads/${
-    req.file.filename
-  }`;
+    if (!body) {
+      return res.status(400).json({ error: "Missing content" });
+    }
+    if (!file) {
+      return res.status(400).json({ error: "Image upload failed" });
+    }
+    if (!user) {
+      return res.status(404).json({ error: "user not found" });
+    }
 
-  const product = new productModel({
-    title: body.title,
-    author: body.author,
-    stock: body.stock,
-    price: body.price,
-    description: body.description,
-    category: body.category,
-    rating: body.rating,
-    image: imagePath,
-    user: user?._id,
-  });
+    const imagePath = `${req.protocol}://${req.get("host")}/uploads/${
+      req.file.filename
+    }`;
 
-  const savedProduct = await product.save();
-  user.product = user.product
-    ? user.product.concat(savedProduct._id)
-    : [savedProduct._id];
-  await user
-    ?.save()
-    .then((result) => {
-      res.json({
-        message: "Product saved successfully",
-        product: result,
-      });
-    })
-    .catch((error) => {
-      return res.status(500).json({ error: "Error registering product" });
+    const product = new productModel({
+      title: body.title,
+      author: body.author,
+      stock: body.stock,
+      price: body.price,
+      description: body.description,
+      category: body.category,
+      rating: body.rating,
+      image: imagePath,
+      user: user?._id,
     });
-});
+
+    const savedProduct = await product.save();
+    user.product = user.product
+      ? user.product.concat(savedProduct._id)
+      : [savedProduct._id];
+    await user
+      ?.save()
+      .then((result) => {
+        res.json({
+          message: "Product saved successfully",
+          product: result,
+        });
+      })
+      .catch((error) => {
+        return res.status(500).json({ error: "Error registering product" });
+      });
+  }
+);
 
 productRouter.get("/", async (req, res) => {
   await productModel
@@ -97,6 +106,7 @@ productRouter.get("/:id", (req, res) => {
 });
 productRouter.patch(
   "/:id",
+  checkAdmin,
   async (req: Request, res: Response): Promise<void> => {
     const updateData = req.body;
     try {
@@ -114,7 +124,7 @@ productRouter.patch(
     }
   }
 );
-productRouter.delete("/:id", (req, res) => {
+productRouter.delete("/:id", checkAdmin, (req, res) => {
   productModel
     .findByIdAndDelete(req.params.id)
     .then((product) =>
