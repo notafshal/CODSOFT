@@ -43,6 +43,8 @@ const Product = ({ params }: { params: { id: number } }) => {
   };
   const handleAddtoCart = async () => {
     const token = localStorage.getItem("token");
+
+    console.log(`user is ${user}`);
     if (!user || !user.id) {
       console.error("User not authenticated or user ID is missing.");
       return;

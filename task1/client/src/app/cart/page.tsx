@@ -50,7 +50,7 @@ const Cart = () => {
   const handleDeleteCartItem = (id: string) => {
     setCartItems((prevItems) => prevItems.filter((item) => item._id !== id));
     const newTotal = cartItems
-      .filter((item) => item._id !== id) // exclude deleted item
+      .filter((item) => item._id !== id)
       .reduce((acc, item) => acc + item.total, 0);
     setFinalTotal(newTotal);
   };

@@ -58,7 +58,7 @@ const CartCard = ({
             />
           </CardHeader>
           <CardContent className="my-auto md:text-lg flex gap-2 flex-col">
-            <CardTitle className="md:w-1/2">{data.product.title}</CardTitle>
+            <CardTitle className="lg:w-1/2">{data.product.title}</CardTitle>
             <CardDescription>{data.product.author}</CardDescription>
           </CardContent>
         </div>

@@ -9,7 +9,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<string | null>>;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const AuthContext = createContext<AuthContextType | undefined | any>(undefined);

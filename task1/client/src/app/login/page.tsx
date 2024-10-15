@@ -6,6 +6,7 @@ import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/context/AuthContext";
+import jwt from "jsonwebtoken";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
@@ -19,8 +20,10 @@ const Login = () => {
       .post("http://localhost:5000/api/auth/login", { email, password })
       .then((result) => {
         if (result.status === 200) {
-          localStorage.setItem("token", result.data.token);
-          setUser(result.data.token);
+          const token = result.data.token;
+          const decoded = jwt.decode(token) as { id: string; email: string };
+          setUser({ id: decoded.id, email: decoded.email });
+          localStorage.setItem("token", token);
           router.push("/");
         } else {
           alert(result.data);
