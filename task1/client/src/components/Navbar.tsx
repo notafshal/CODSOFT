@@ -42,7 +42,7 @@ const Navbar = () => {
               placeholder="Search for ..."
               className="rounded-md w-36 lg:w-96 border-2 "
             />
-            <CiSearch className="-mx-6 mt-3 text-lg" />
+            <CiSearch className="-mx-6 mt-2 text-lg" />
           </div>
         </div>
 

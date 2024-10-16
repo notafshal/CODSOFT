@@ -18,7 +18,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/context/AuthContext";
-import SelectGenre from "./SelectGenre";
 
 const AddProduct = () => {
   const [title, setTitle] = useState("");
@@ -30,12 +29,10 @@ const AddProduct = () => {
   const [image, setImage] = useState<File | null>(null);
   const router = useRouter();
   const { user } = useAuth();
-  useEffect(() => {
-    console.log(user);
-  });
 
   const handleAddProduct = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log(user);
+    const token = localStorage.getItem("token");
+
     e.preventDefault();
     const formData = new FormData();
     formData.append("title", title);
@@ -50,7 +47,9 @@ const AddProduct = () => {
     }
 
     axios
-      .post("http://localhost:5000/api/product", formData)
+      .post("http://localhost:5000/api/product", formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then((result) => {
         if (result.status === 200) {
           alert("The product is successfully added!");
@@ -137,8 +136,13 @@ const AddProduct = () => {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="romantic">Romantic</SelectItem>
-                <SelectItem value="dark">Dark</SelectItem>
+                <SelectItem value="horror">Horror</SelectItem>
                 <SelectItem value="fictional">Fictional</SelectItem>
+                <SelectItem value="novel">Novel</SelectItem>
+                <SelectItem value="biography">Biography</SelectItem>
+                <SelectItem value="thriller">Thriller</SelectItem>
+                <SelectItem value="action">Action</SelectItem>
+                <SelectItem value="inspirational">Inspirational</SelectItem>
               </SelectContent>
             </Select>
             <label>Photo : </label>

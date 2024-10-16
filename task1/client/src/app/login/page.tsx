@@ -21,10 +21,19 @@ const Login = () => {
       .then((result) => {
         if (result.status === 200) {
           const token = result.data.token;
-          const decoded = jwt.decode(token) as { id: string; email: string };
-          setUser({ id: decoded.id, email: decoded.email });
+          const decoded = jwt.decode(token) as {
+            id: string;
+            email: string;
+          };
+          setUser({
+            id: decoded.id,
+            email: decoded.email,
+            isRole: result.data.isRole,
+          });
+          const isAdmin = result.data.isRole;
+
           localStorage.setItem("token", token);
-          router.push("/");
+          isAdmin === 1 ? router.push("/dashboard") : router.push("/");
         } else {
           alert(result.data);
         }

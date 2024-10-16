@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 interface User {
   id: string | null;
   email: string | null;
+  isRole: number;
 }
 
 interface AuthContextType {
@@ -18,12 +19,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
+    console.log(user);
     const token = localStorage.getItem("token");
     if (token) {
       try {
-        const decoded = jwt.decode(token) as { id: string; email: string };
+        const decoded = jwt.decode(token) as {
+          id: string;
+          email: string;
+          isRole: number;
+        };
         if (decoded && decoded.id && decoded.email) {
-          setUser({ id: decoded.id, email: decoded.email });
+          setUser({
+            id: decoded.id,
+            email: decoded.email,
+            isRole: decoded.isRole,
+          });
         } else {
           console.warn("Invalid token structure:", decoded);
         }

@@ -28,8 +28,8 @@ export default function Home() {
       <div className="lg:grid lg:grid-cols-3 gap-4 mx-6">
         {product.map((data: any) => (
           <div>
-            <Link key={data._id} href={`/products/${data._id}`}>
-              <ProductCard data={data} />
+            <Link href={`/products/${data._id}`}>
+              <ProductCard key={data._id} data={data} />
             </Link>
           </div>
         ))}
