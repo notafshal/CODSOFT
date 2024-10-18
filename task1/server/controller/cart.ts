@@ -66,7 +66,7 @@ cartRouter.get("/:userId", verifyToken, async (req: any, res: any) => {
 cartRouter.post("/", verifyToken, async (req: any, res: any) => {
   const body = req.body;
   const user = await UserModel.findById(body.userId);
-  console.log(body);
+
   if (!body.product || !body.userId || !body.quantity || !body.total) {
     return res
       .status(400)

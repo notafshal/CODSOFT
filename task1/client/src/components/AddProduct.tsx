@@ -14,8 +14,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/context/AuthContext";
 
@@ -120,12 +121,12 @@ const AddProduct = () => {
             />
             <br />
             <label>Description : </label>
-            <textarea
+            <Textarea
               name="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Description"
-            ></textarea>
+            />
             <br />
             <label> Genre : </label>
 

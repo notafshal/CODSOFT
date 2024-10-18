@@ -86,8 +86,10 @@ productRouter.post(
           product: result,
         });
       })
-      .catch((error) => {
-        return res.status(500).json({ error: "Error registering product" });
+      .catch((err) => {
+        return res
+          .status(500)
+          .json({ error: "Error registering product", err });
       });
   }
 );
@@ -104,6 +106,40 @@ productRouter.get("/:id", (req, res) => {
     .then((product) => res.json(product))
     .catch((err) => res.json({ error: err }));
 });
+productRouter.get("/:author", (req, res) => {
+  const authorName = req.params.author;
+  productModel
+    .find({ author: authorName })
+    .then((product) => {
+      console.log(product);
+      res.json(product);
+    })
+    .catch((err) => res.json({ error: err }));
+});
+
+productRouter.get("/:category", async (req: any, res: any) => {
+  console.log(req.params); // Logs the parameters received in the request
+  try {
+    const categoryName = req.query.category;
+
+    // Use find to retrieve all products in the specified category
+    const products = await productModel.find({ category: categoryName });
+
+    // Check if products were found
+    if (products.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No products found for this category." });
+    }
+
+    console.log(products);
+    res.json(products);
+  } catch (err) {
+    console.error("Error fetching products:", err);
+    res.status(500).json({ error: err });
+  }
+});
+
 productRouter.patch(
   "/:id",
   checkAdmin,

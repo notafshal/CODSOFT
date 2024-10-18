@@ -25,14 +25,15 @@ const Login = () => {
             id: string;
             email: string;
           };
+          const isAdmin = result.data.isRole;
           setUser({
             id: decoded.id,
             email: decoded.email,
-            isRole: result.data.isRole,
+            isRole: isAdmin,
           });
-          const isAdmin = result.data.isRole;
 
           localStorage.setItem("token", token);
+          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
           isAdmin === 1 ? router.push("/dashboard") : router.push("/");
         } else {
           alert(result.data);

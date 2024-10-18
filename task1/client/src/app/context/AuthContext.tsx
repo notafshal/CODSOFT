@@ -19,7 +19,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
-    console.log(user);
     const token = localStorage.getItem("token");
     if (token) {
       try {
