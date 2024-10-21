@@ -15,7 +15,6 @@ function FilterPage() {
   const author = searchParams.get("author");
   const category = searchParams.get("category");
   const [filteredItems, setFilteredItems] = useState<Product[] | null>(null);
-  console.log(filteredItems);
   useEffect(() => {
     const query = new URLSearchParams();
     if (author) query.append("author", author);

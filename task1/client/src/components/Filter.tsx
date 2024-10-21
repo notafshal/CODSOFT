@@ -127,9 +127,11 @@ const Filter = () => {
                           item.category
                         )}`}
                       >
-                        <div className="p-1 hover:underline" key={item.id}>
-                          {item.category}
-                        </div>
+                        <button>
+                          <div className="p-1 hover:underline" key={item.id}>
+                            {item.category}
+                          </div>
+                        </button>
                       </Link>
                     </>
                   ))}
