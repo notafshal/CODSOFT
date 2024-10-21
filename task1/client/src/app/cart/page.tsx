@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 interface Product {
   author: string;
   image: string;
@@ -47,7 +49,7 @@ const Cart = () => {
       };
       fetchCart();
     }
-  }, [user, updateCartItems]);
+  }, [user]);
   const handleDeleteCartItem = (id: string) => {
     removeFromCart(id);
     setCartItem((prevItems) => prevItems.filter((item) => item._id !== id));
@@ -72,7 +74,12 @@ const Cart = () => {
           ))
         )}
       </div>
-      <div className="font-bold">Cart Total: Rs. {finalTotal}</div>
+      <div className="font-bold text-end mx-6">
+        <p className="my-2">Cart Total: Rs. {finalTotal}</p>
+        <Link href="/payment">
+          <Button>Checkout</Button>
+        </Link>
+      </div>
     </>
   );
 };

@@ -106,37 +106,21 @@ productRouter.get("/:id", (req, res) => {
     .then((product) => res.json(product))
     .catch((err) => res.json({ error: err }));
 });
-productRouter.get("/:author", (req, res) => {
-  const authorName = req.params.author;
-  productModel
-    .find({ author: authorName })
-    .then((product) => {
-      console.log(product);
-      res.json(product);
-    })
-    .catch((err) => res.json({ error: err }));
-});
+productRouter.get("/products", async (req: Request, res: Response) => {
+  const { category, minPrice, maxPrice, author } = req.query;
 
-productRouter.get("/:category", async (req: any, res: any) => {
-  console.log(req.params); // Logs the parameters received in the request
+  const filter: any = {};
+  if (category) filter.category = category;
+  if (author) filter.author = author;
+  if (minPrice && maxPrice) {
+    filter.price = { $gte: Number(minPrice), $lte: Number(maxPrice) };
+  }
+
   try {
-    const categoryName = req.query.category;
-
-    // Use find to retrieve all products in the specified category
-    const products = await productModel.find({ category: categoryName });
-
-    // Check if products were found
-    if (products.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No products found for this category." });
-    }
-
-    console.log(products);
+    const products = await productModel.find(filter);
     res.json(products);
-  } catch (err) {
-    console.error("Error fetching products:", err);
-    res.status(500).json({ error: err });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching products", error });
   }
 });
 

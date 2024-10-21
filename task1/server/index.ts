@@ -18,7 +18,7 @@ mongoose
   .connect(url)
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.log(`Connection to MongoDB failed , ${err}`));
-mongoose.set("debug", true);
+
 app.use("/uploads", express.static("uploads"));
 app.use("/api/cart", cartRouter);
 app.use("/api/users", userRouter);

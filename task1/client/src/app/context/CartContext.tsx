@@ -1,6 +1,9 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 interface ProductDetails {
+  [x: string]: ReactNode;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  product: any;
   id: string;
   title: string;
   author: string;
