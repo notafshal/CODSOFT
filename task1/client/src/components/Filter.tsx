@@ -94,8 +94,17 @@ const Filter = () => {
                 {authorisClick &&
                   uniqueAuthors.map((item) => (
                     <>
-                      <Link key={item.id} href={`filterpage/${item.id}`}>
-                        <div className="p-1 hover:underline">{item.author}</div>
+                      <Link
+                        key={item.id}
+                        href={`/filterpage?author=${encodeURIComponent(
+                          item.author
+                        )}`}
+                      >
+                        <button>
+                          <div className="p-1 hover:underline">
+                            {item.author}
+                          </div>
+                        </button>
                       </Link>
                     </>
                   ))}
@@ -112,7 +121,12 @@ const Filter = () => {
                 {categoryisClick &&
                   uniqueCategories.map((item) => (
                     <>
-                      <Link key={item.id} href={`filterpage/${item.id}`}>
+                      <Link
+                        key={item.id}
+                        href={`/filterpage?category=${encodeURIComponent(
+                          item.category
+                        )}`}
+                      >
                         <div className="p-1 hover:underline" key={item.id}>
                           {item.category}
                         </div>

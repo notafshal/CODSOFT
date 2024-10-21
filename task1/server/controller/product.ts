@@ -93,7 +93,21 @@ productRouter.post(
       });
   }
 );
+productRouter.get("/filter", async (req: any, res: any) => {
+  const { author, category } = req.query;
+  const filter: any = {};
+  if (author) filter.author = author;
+  if (category) filter.category = category;
 
+  try {
+    const filteredItems = await productModel.find(filter);
+    res.json(filteredItems);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error fetching filtered products", error });
+  }
+});
 productRouter.get("/", async (req, res) => {
   await productModel
     .find({})

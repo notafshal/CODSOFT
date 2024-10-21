@@ -34,6 +34,7 @@ const CartCard = ({
   if (!data.product) {
     console.log("data.product is null");
   }
+
   const productTotal = data.product.price * data.quantity;
   const deleteCart = () => {
     axios
