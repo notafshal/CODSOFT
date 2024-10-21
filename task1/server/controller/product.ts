@@ -96,8 +96,8 @@ productRouter.post(
 productRouter.get("/filter", async (req: any, res: any) => {
   const { author, category } = req.query;
   const filter: any = {};
-  if (author) filter.author = author;
-  if (category) filter.category = category;
+  if (author) filter.author = decodeURIComponent(author as string);
+  if (category) filter.category = decodeURIComponent(category as string);
 
   try {
     const filteredItems = await productModel.find(filter);
