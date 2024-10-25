@@ -26,7 +26,6 @@ export default function Home() {
           All <span className="text-white bg-black p-1">Products</span>
         </p>
         <div>
-          {" "}
           <Filter />
         </div>
       </div>
