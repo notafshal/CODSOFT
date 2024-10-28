@@ -6,6 +6,7 @@ export default function Home() {
   return (
     <>
       <Sidebar />
+      This is mainPage
     </>
   );
 }

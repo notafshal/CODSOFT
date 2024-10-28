@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
 export default function Login() {
   return (
     <>
@@ -28,10 +29,12 @@ export default function Login() {
             </CardContent>
             <CardFooter>
               <p>
-                Do not have an account?
-                <span className="hover:underline hover:cursor-pointer">
-                  Register now
-                </span>
+                Do not have an account?&nbsp;
+                <Link href="/register">
+                  <span className="hover:underline hover:cursor-pointer">
+                    Register now
+                  </span>
+                </Link>
               </p>
             </CardFooter>
           </Card>
