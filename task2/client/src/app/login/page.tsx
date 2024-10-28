@@ -32,6 +32,7 @@ export default function Login() {
       console.log(err);
     }
   };
+
   return (
     <>
       <div className="flex items-center justify-center flex-col w-full h-screen bg-neutral-100">
