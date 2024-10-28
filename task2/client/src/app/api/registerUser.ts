@@ -5,7 +5,6 @@ interface RegisterationUser {
   email: string;
   password: string;
 }
-
 const registerUser = (userData: RegisterationUser) => {
   axios
     .post(`http://localhost:5000/api/users/register`, userData)
