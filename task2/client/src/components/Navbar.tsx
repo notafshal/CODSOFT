@@ -5,13 +5,19 @@ import { CiSearch } from "react-icons/ci";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/app/context/AuthContext";
 import Link from "next/link";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useToast } from "@/hooks/use-toast";
+
 export default function Navbar() {
   const { user, logout } = useAuth();
+  const { toast } = useToast();
+
   const handleLogout = () => {
     logout();
-    toast("Logged Out Successfully");
+    toast({
+      variant: "destructive",
+      title: "Logged Out Successfully",
+      description: "Thank You For your time",
+    });
   };
   return (
     <div>
@@ -41,7 +47,6 @@ export default function Navbar() {
           )}
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 }

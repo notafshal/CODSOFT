@@ -15,13 +15,14 @@ import Link from "next/link";
 import loginUser from "../api/loginUser";
 import { useAuth } from "../context/AuthContext";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Login() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const { setUser } = useAuth();
   const router = useRouter();
-
+  const { toast } = useToast();
   const handelLogin = async () => {
     const userData = { username: username, password: password };
     try {
@@ -29,6 +30,10 @@ export default function Login() {
       if (loggedIn) {
         const { token, id, username, email, role } = loggedIn;
         setUser({ id, username, email, role, token });
+        toast({
+          title: "Logged in successfully",
+          description: "Thank you for checking in. Please complete your tasks",
+        });
         router.push("/");
       }
     } catch (err) {
