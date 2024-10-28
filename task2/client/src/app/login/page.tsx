@@ -14,11 +14,13 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import loginUser from "../api/loginUser";
 import { useAuth } from "../context/AuthContext";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const { setUser } = useAuth();
+  const router = useRouter();
 
   const handelLogin = async () => {
     const userData = { username: username, password: password };
@@ -27,6 +29,7 @@ export default function Login() {
       if (loggedIn) {
         const { token, id, username, email, role } = loggedIn;
         setUser({ id, username, email, role, token });
+        router.push("/");
       }
     } catch (err) {
       console.log(err);
