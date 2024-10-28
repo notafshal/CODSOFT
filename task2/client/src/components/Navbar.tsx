@@ -7,7 +7,7 @@ export default function Navbar() {
   return (
     <div>
       {" "}
-      <div className="flex justify-between my-2 mx-2">
+      <div className="flex justify-between my-2 mx-2 sticky">
         <div className="w-2/3 flex gap-20">
           <span className="p-2 text-white bg-blue-600 rounded-full">
             TaskTrail
