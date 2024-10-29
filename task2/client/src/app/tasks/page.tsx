@@ -11,13 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import getTasks from "../api/getTasks";
 import Sidebar from "@/components/Sidebar";
 
@@ -50,40 +44,14 @@ export default function Tasks() {
                 <CardContent>
                   <p>Priority: {task.priority}</p>
                   <p>Stage: {task.stage}</p>
-                  <p>
-                    Activities:
-                    {task.activities.map((active: any) => (
-                      <div key={active.id || active._id}>
-                        <Card className="bg-blue-500 text-white">
-                          <CardHeader>
-                            <CardTitle>{active.type}</CardTitle>
-                            <CardDescription>{active.date}</CardDescription>
-                          </CardHeader>
-                          <CardContent>
-                            <p>{active.activity}</p>
-                          </CardContent>
-                          <CardFooter>
-                            <p>
-                              {" "}
-                              Team Leader:
-                              <br /> {active.by}
-                            </p>
-                          </CardFooter>
-                        </Card>
-                      </div>
-                    ))}
-                  </p>
                 </CardContent>
                 <CardFooter className="flex justify-between">
                   <p>
-                    <Select>
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Team" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value={task.team}>{task.team}</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    {task.team.map((teams: any) => (
+                      <div key={teams.id}>
+                        <p>{teams}</p>
+                      </div>
+                    ))}
                   </p>
                 </CardFooter>
               </Card>
