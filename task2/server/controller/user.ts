@@ -5,12 +5,22 @@ import bcrypt from "bcrypt";
 const userRouter = express.Router();
 
 userRouter.get("/", async (req: Request, res: Response) => {
-  const user = UserModel.find({})
-    .then((result) => res.status(200).json(result))
-    .catch((err) => res.status(400).json(err));
+  try {
+    const user = await UserModel.find({}).populate({
+      path: "tasks",
+      select: "title date priority stage activities subTasks team",
+      populate: {
+        path: "team",
+        select: "username role",
+      },
+    });
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
 });
 userRouter.post("/register", async (req: any, res: any): Promise<void> => {
-  const { username, email, password } = req.body;
+  const { username, email, password, role } = req.body;
   const existingUser = await UserModel.findOne({ email });
   if (existingUser) {
     return res.status(400).json({ error: "Email already Exist" });
@@ -19,6 +29,7 @@ userRouter.post("/register", async (req: any, res: any): Promise<void> => {
   const newUser = new UserModel({
     username,
     email,
+    role,
     password: hashedPassword,
   });
   newUser

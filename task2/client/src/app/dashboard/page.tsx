@@ -26,7 +26,9 @@ export default function Dashboard() {
           <div className="flex justify-end w-full">
             <Dialog>
               <DialogTrigger asChild>
-                <Button variant="outline">Edit Profile</Button>
+                <Button variant="outline" className="bg-blue-500 text-white">
+                  Add Task
+                </Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
@@ -38,11 +40,7 @@ export default function Dashboard() {
                     <Label htmlFor="name" className="text-right">
                       Title
                     </Label>
-                    <Input
-                      id="title"
-                      placeholder="title"
-                      className="col-span-3"
-                    />
+                    <Input id="title" className="col-span-3" />
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="username" className="text-right">

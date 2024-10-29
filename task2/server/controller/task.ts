@@ -8,25 +8,39 @@ const taskRouter = express.Router();
 taskRouter.get("/", (req: Request, res: Response) => {
   tasksModel
     .find({})
+    .populate("users", {
+      username: 1,
+      role: 1,
+      isAdmin: 1,
+    })
     .then((result) => res.status(200).json(result))
     .catch((err) => res.status(400).json(err));
 });
 
-taskRouter.post("/", async (req: any, res: any) => {
+taskRouter.post("/", verifyToken, async (req: any, res: any) => {
   const body = req.body;
-  //   const user = await UserModel.findById(body.userId);
+  console.log(body);
+  const user = await UserModel.findById(
+    body.activities.map((use: any) => use.by)
+  );
   if (!body) {
     return res.status(400).json("Missing credentials");
   }
-  //   if (!user) {
-  //     return res.status(404).json({ error: "user not found" });
-  //   }
+  console.log(user);
+  if (!user) {
+    return res.status(404).json({ error: "user not found" });
+  }
   const task = new tasksModel({
     title: body.title,
     date: body.date,
     priority: body.priority,
     stage: body.stage,
-    activities: body.activities,
+    activities: body.activities.map((activiti: any) => ({
+      type: activiti.type,
+      activity: activiti.activity,
+      date: activiti.date,
+      by: user?.id,
+    })),
     subTasks: body.subTasks.map((subTask: any) => ({
       title: subTask.title,
       date: subTask.date,
@@ -34,12 +48,14 @@ taskRouter.post("/", async (req: any, res: any) => {
     })),
     team: body.team,
   });
-  task
-    .save()
+  const savedTask = await task.save();
+  user.tasks = user.tasks ? user.tasks.concat(savedTask.id) : [savedTask.id];
+  await user
+    ?.save()
     .then((result) =>
-      res.status(200).json({ message: `Task assigned `, result: result })
+      res.status(200).json({ message: "Task saved", task: result })
     )
-    .catch((err) => res.status(400).json(`Task assigning failed ${err}`));
+    .catch((err) => res.status(400).json(err));
 });
 
 export default taskRouter;

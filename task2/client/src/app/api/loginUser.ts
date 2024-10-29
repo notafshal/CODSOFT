@@ -13,11 +13,11 @@ const loginUser = async (userData: LoginData) => {
       userData
     );
     if (result.status === 200) {
-      return result.data; // Return the entire user data object, including token
+      return result.data;
     }
   } catch (err) {
     console.error(err);
-    throw err; // Rethrow the error for handling in the calling function
+    throw err;
   }
 };
 export default loginUser;
