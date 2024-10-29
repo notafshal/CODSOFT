@@ -32,43 +32,18 @@ const taskSchema = new mongoose.Schema(
             "commented",
           ],
         },
-        activity: String,
+        activity: { type: String },
         date: { type: Date, default: () => stripTimeFromDate(new Date()) },
         by: { type: Schema.Types.ObjectId, ref: "users" },
       },
     ],
-    subTasks: [
-      {
-        title: String,
-        date: { type: Date, default: () => stripTimeFromDate(new Date()) },
-        tag: String,
-      },
-    ],
+
     team: [{ type: Schema.Types.ObjectId, ref: "users" }],
     isTrashed: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
-taskSchema.pre("save", function (next) {
-  if (this.date) {
-    this.date = stripTimeFromDate(this.date);
-  }
-  if (this.activities && this.activities.length > 0) {
-    this.activities.forEach((activity: any) => {
-      if (activity.date) {
-        activity.date = stripTimeFromDate(activity.date);
-      }
-    });
-  }
-  if (this.subTasks && this.subTasks.length > 0) {
-    this.subTasks.forEach((subTask: any) => {
-      if (subTask.date) {
-        subTask.date = stripTimeFromDate(subTask.date);
-      }
-    });
-  }
-  next();
-});
+
 taskSchema.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();

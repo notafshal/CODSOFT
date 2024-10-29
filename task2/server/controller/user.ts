@@ -19,8 +19,10 @@ userRouter.get("/", async (req: Request, res: Response) => {
     res.status(500).json({ error: err });
   }
 });
+
 userRouter.post("/register", async (req: any, res: any): Promise<void> => {
-  const { username, email, password, role } = req.body;
+  const { username, email, password, role, isAdmin } = req.body;
+  console.log(req.body);
   const existingUser = await UserModel.findOne({ email });
   if (existingUser) {
     return res.status(400).json({ error: "Email already Exist" });
@@ -30,6 +32,7 @@ userRouter.post("/register", async (req: any, res: any): Promise<void> => {
     username,
     email,
     role,
+    isAdmin,
     password: hashedPassword,
   });
   newUser
@@ -37,6 +40,9 @@ userRouter.post("/register", async (req: any, res: any): Promise<void> => {
     .then((saveduser) => {
       res.json(saveduser);
     })
-    .catch((err) => res.status(500).json({ error: err }));
+    .catch((err) => {
+      res.status(500).json({ error: err });
+      console.error("Error saving user:", err);
+    });
 });
 export default userRouter;
