@@ -12,13 +12,13 @@ import Link from "next/link";
 export default function Sidebar() {
   return (
     <>
-      <div className=" w-1/5 h-screen  bg-neutral-100">
+      <div className="sticky top-0 z-10 w-1/5 h-screen  bg-neutral-100">
         <div className="flex flex-col gap-2  text-lg mx-4">
           <Link
             href="/dashboard"
             className="hover:cursor-pointer focus:bg-blue-400 focus:text-white hover:bg-neutral-200 p-2 rounded-2xl flex gap-3"
           >
-            <PiSquaresFour className="my-1.5 onF" /> Dashboard
+            <PiSquaresFour className="my-1.5 " /> Dashboard
           </Link>
           <Link
             href="/tasks"
