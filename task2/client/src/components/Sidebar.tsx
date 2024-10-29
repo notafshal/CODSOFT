@@ -20,10 +20,13 @@ export default function Sidebar() {
           >
             <PiSquaresFour className="my-1.5 onF" /> Dashboard
           </Link>
-          <li className="hover:cursor-pointer focus:bg-blue-400 focus:text-white hover:bg-neutral-200 p-2 rounded-2xl flex gap-3">
+          <Link
+            href="/tasks"
+            className="hover:cursor-pointer focus:bg-blue-400 focus:text-white hover:bg-neutral-200 p-2 rounded-2xl flex gap-3"
+          >
             <FaTasks className="my-1.5" />
             Tasks
-          </li>
+          </Link>
           <li className="hover:cursor-pointer focus:bg-blue-400 focus:text-white hover:bg-neutral-200 p-2 rounded-2xl flex gap-3">
             <RiTeamFill className="my-1.5" /> Team
           </li>

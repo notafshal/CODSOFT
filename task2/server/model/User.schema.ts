@@ -1,11 +1,15 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-const userSchema = new mongoose.Schema({
-  username: { type: String },
-  email: { type: String },
-  password: { type: String },
-  role: { type: Number, default: 0 }, //Admin ->1 users->0
-});
+const userSchema = new mongoose.Schema(
+  {
+    username: { type: String },
+    email: { type: String },
+    password: { type: String },
+    role: { type: Number, default: 0 }, //Admin ->1 users->0
+    tasks: [{ type: Schema.Types.ObjectId, ref: "Task" }],
+  },
+  { timestamps: true }
+);
 userSchema.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();

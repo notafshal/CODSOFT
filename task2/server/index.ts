@@ -4,6 +4,7 @@ import dbconnect from "./config/dbconnect";
 import dotenv from "dotenv";
 import userRouter from "./controller/user";
 import auth from "./controller/auth";
+import taskRouter from "./controller/task";
 
 dotenv.config();
 const app = express();
@@ -12,7 +13,10 @@ app.use(cors());
 
 dbconnect();
 app.use("/api/auth/", auth);
+
 app.use("/api/users", userRouter);
+
+app.use("/api/task", taskRouter);
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json("Connection successful");
 });
