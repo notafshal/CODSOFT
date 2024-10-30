@@ -18,10 +18,12 @@ const taskSchema = new mongoose.Schema(
       default: "preceding",
       enum: ["preceding", "in progress", "completed"],
     },
-    activities: {
-      type: mongoose.Schema.ObjectId,
-      ref: "activities",
-    },
+    activities: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "activities",
+      },
+    ],
     team: [{ type: Schema.Types.ObjectId, ref: "users" }],
     isTrashed: { type: Boolean, default: false },
   },

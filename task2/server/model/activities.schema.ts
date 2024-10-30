@@ -16,6 +16,7 @@ const activitiesSchema = new mongoose.Schema({
   activityText: { type: String },
   date: { type: Date, default: Date },
   doneBy: { type: Schema.Types.ObjectId, ref: "users" },
+  task: { type: Schema.Types.ObjectId, ref: "task" },
 });
 activitiesSchema.set("toJSON", {
   transform: (document, returnedObject) => {

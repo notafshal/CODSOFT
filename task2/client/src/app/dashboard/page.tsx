@@ -53,7 +53,7 @@ export default function Dashboard() {
     );
   };
   const membersId = selectedMembers.map((member: any) => member.id);
-  console;
+
   const CreateTask = async () => {
     const taskData = {
       title: title,

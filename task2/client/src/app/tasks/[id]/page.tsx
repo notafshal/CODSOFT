@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/app/context/AuthContext";
+import createActivity from "@/app/api/createActivity";
 
 export default function TaskPage() {
   const params = useParams();
@@ -26,6 +28,8 @@ export default function TaskPage() {
   const [task, setTask] = useState<any>(null);
   const [textActivity, setTextActivity] = useState<string>("");
   const [status, setStatus] = useState<string>("");
+  const { user } = useAuth();
+
   useEffect(() => {
     const fetchSingleTask = async () => {
       try {
@@ -37,6 +41,16 @@ export default function TaskPage() {
     };
     fetchSingleTask();
   }, [taskId]);
+  const addActivity = () => {
+    const activityData = {
+      status: status,
+      activityText: textActivity,
+      date: Date.now(),
+      doneBy: user?.id,
+      token: user?.token,
+    };
+    createActivity(activityData);
+  };
 
   if (!task) {
     return (
@@ -46,7 +60,7 @@ export default function TaskPage() {
       </div>
     );
   }
-  const addActivity = () => {};
+
   return (
     <div className="flex h-screen">
       <Sidebar />
