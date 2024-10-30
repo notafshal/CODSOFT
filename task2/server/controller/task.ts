@@ -19,7 +19,12 @@ taskRouter.get("/", async (req: Request, res: Response) => {
     res.status(500).json({ error: err });
   }
 });
-
+taskRouter.get("/:id", (req, res) => {
+  tasksModel
+    .findById(req.params.id)
+    .then((result) => res.status(200).json(result))
+    .catch((err) => res.status(400).json(err));
+});
 taskRouter.post("/", verifyToken, checkAdmin, async (req: any, res: any) => {
   const body = req.body;
   const userId = req.userId;
