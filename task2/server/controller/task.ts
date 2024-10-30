@@ -21,10 +21,16 @@ taskRouter.get("/", async (req: Request, res: Response) => {
 });
 taskRouter.get("/:id", async (req, res) => {
   try {
-    const tasks = await tasksModel.findById(req.params.id).populate({
-      path: "team",
-      select: "username email role",
-    });
+    const tasks = await tasksModel
+      .findById(req.params.id)
+      .populate({
+        path: "team",
+        select: "username email role",
+      })
+      .populate({
+        path: "activities",
+        select: "status activityText date doneBy",
+      });
 
     res.status(200).json(tasks);
   } catch (err) {

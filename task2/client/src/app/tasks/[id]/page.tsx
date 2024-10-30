@@ -47,11 +47,12 @@ export default function TaskPage() {
       activityText: textActivity,
       date: Date.now(),
       doneBy: user?.id,
+      taskId: taskId,
       token: user?.token,
     };
     createActivity(activityData);
   };
-
+  console.log(task);
   if (!task) {
     return (
       <div className="flex h-screen">
@@ -135,7 +136,22 @@ export default function TaskPage() {
                 </div>
               </div>
             </CardContent>
-            <CardFooter></CardFooter>
+            <CardFooter>
+              <div>
+                {task.activities.map((activity: any) => (
+                  <div key={activity.id}>
+                    <div className="flex flex-col gap-2">
+                      <p> {activity.status}</p>
+                      <p>
+                        {" "}
+                        {activity.activityText}--
+                        {activity.doneBy}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardFooter>
           </Card>
         </div>
       </div>
