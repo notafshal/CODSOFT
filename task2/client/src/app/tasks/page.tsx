@@ -14,6 +14,7 @@ import {
 
 import getTasks from "../api/getTasks";
 import Sidebar from "@/components/Sidebar";
+import Link from "next/link";
 
 export default function Tasks() {
   const [tasks, setTasks] = useState<any[]>([]);
@@ -36,23 +37,27 @@ export default function Tasks() {
         <div className="grid grid-cols-3 gap-4">
           {tasks.map((task) => (
             <div key={task.id}>
-              <Card className="bg-blue-100">
-                <CardHeader>
-                  <CardTitle>{task.title}</CardTitle>
-                  <CardDescription>{task.date}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p>Priority: {task.priority}</p>
-                  <p>Stage: {task.stage}</p>
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                  <p className="flex flex-col">
-                    {task.team.map((user: any) => (
-                      <div key={user.id}>{user.username}</div>
-                    ))}
-                  </p>
-                </CardFooter>
-              </Card>
+              <Link href={`tasks/${task.id}`}>
+                <Card className="bg-blue-100">
+                  <CardHeader>
+                    <CardTitle>{task.title}</CardTitle>
+                    <CardDescription>{task.date}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p>Priority: {task.priority}</p>
+                    <p>Stage: {task.stage}</p>
+                  </CardContent>
+                  <CardFooter className="flex justify-between">
+                    <div className="flex flex-col">
+                      {task.team.map((user: any) => (
+                        <div key={user.id}>
+                          {user.username}-{user.role}
+                        </div>
+                      ))}
+                    </div>
+                  </CardFooter>
+                </Card>
+              </Link>
             </div>
           ))}
         </div>
