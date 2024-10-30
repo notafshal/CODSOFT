@@ -20,6 +20,12 @@ userRouter.get("/", async (req: Request, res: Response) => {
   }
 });
 
+userRouter.get("/:id", (req, res) => {
+  UserModel.findById(req.params.id)
+    .then((result) => res.status(200).json(result))
+    .catch((err) => res.status(400).json(err));
+});
+
 userRouter.post("/register", async (req: any, res: any): Promise<void> => {
   const { username, email, password, role, isAdmin } = req.body;
   console.log(req.body);
