@@ -18,26 +18,10 @@ const taskSchema = new mongoose.Schema(
       default: "preceding",
       enum: ["preceding", "in progress", "completed"],
     },
-    activities: [
-      {
-        type: {
-          type: String,
-          default: "assigned",
-          enum: [
-            "assigned",
-            "started",
-            "in progress",
-            "bug",
-            "completed",
-            "commented",
-          ],
-        },
-        activity: { type: String },
-        date: { type: Date, default: () => stripTimeFromDate(new Date()) },
-        by: { type: Schema.Types.ObjectId, ref: "users" },
-      },
-    ],
-
+    activities: {
+      type: mongoose.Schema.ObjectId,
+      ref: "activities",
+    },
     team: [{ type: Schema.Types.ObjectId, ref: "users" }],
     isTrashed: { type: Boolean, default: false },
   },

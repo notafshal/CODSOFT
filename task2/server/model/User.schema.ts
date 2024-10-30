@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema(
     email: { type: String },
     password: { type: String },
     role: { type: String },
+
     isAdmin: { type: Number, default: 0 }, //Admin ->1 users->0
     tasks: [{ type: Schema.Types.ObjectId, ref: "task" }],
   },
