@@ -18,12 +18,14 @@ export default function Register() {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [role, setRole] = useState<string>("");
   const router = useRouter();
   const handleRegister = () => {
     const userData = {
       username: username,
       email: email,
       password: password,
+      role: role,
     };
     try {
       registerUser(userData);
@@ -31,6 +33,7 @@ export default function Register() {
       setEmail("");
       setPassword("");
       setUsername("");
+      setRole("");
     } catch (err: any) {
       console.log(err);
     }
@@ -52,7 +55,12 @@ export default function Register() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
-
+              <Label htmlFor="role">Role</Label>
+              <Input
+                placeholder="Role"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+              />
               <Label htmlFor="email">Email</Label>
               <Input
                 placeholder="your email"
@@ -66,6 +74,7 @@ export default function Register() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+
               <Button
                 className="bg-blue-500 text-white hover:text-black "
                 onClick={handleRegister}

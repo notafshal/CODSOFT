@@ -46,11 +46,9 @@ export default function Tasks() {
                   <p>Stage: {task.stage}</p>
                 </CardContent>
                 <CardFooter className="flex justify-between">
-                  <p>
-                    {task.team.map((teams: any) => (
-                      <div key={teams.id}>
-                        <p>{teams}</p>
-                      </div>
+                  <p className="flex flex-col">
+                    {task.team.map((user: any) => (
+                      <div key={user.id}>{user.username}</div>
                     ))}
                   </p>
                 </CardFooter>
