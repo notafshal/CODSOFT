@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
@@ -17,23 +18,22 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import getUsers from "../api/getUsers";
 import createTasks from "../api/createTasks";
+import { toast } from "@/hooks/use-toast";
+import { useAuth } from "../context/AuthContext";
+import { useRouter } from "next/navigation";
 export default function Dashboard() {
   const [title, setTitle] = useState<string>("");
-  const [deadline, setDeadLine] = useState();
+  const [deadline, setDeadLine] = useState<Date | null>(null);
   const [priority, setPriority] = useState<string>("");
-  const [stage, setStage] = useState<string>("");
   const [teammembers, setTeammembers] = useState<string[]>([]);
   const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
+  const router = useRouter();
+  const { user } = useAuth();
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -52,7 +52,27 @@ export default function Dashboard() {
         : [...prevSelected, member]
     );
   };
-  const CreateTask = () => {};
+  const membersId = selectedMembers.map((member: any) => member.id);
+  console;
+  const CreateTask = async () => {
+    const taskData = {
+      title: title,
+      date: deadline,
+      priority: priority,
+      team: membersId,
+      token: user.token,
+    };
+    try {
+      await createTasks(taskData);
+      toast({
+        title: "Task created successfully",
+        description: "New Task created and assigned to team members",
+      });
+      router.push("/dashboard");
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <>
       <div className="flex">
@@ -91,9 +111,11 @@ export default function Dashboard() {
                     <Input
                       type="date"
                       className="col-span-2"
-                      value={deadline}
+                      value={
+                        deadline ? deadline.toISOString().split("T")[0] : ""
+                      }
                       onChange={(e) => {
-                        console.log(e.target.valueAsDate);
+                        setDeadLine(e.target.valueAsDate);
                       }}
                     />
                   </div>
@@ -113,8 +135,8 @@ export default function Dashboard() {
                         <Label htmlFor="high">High</Label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="meduim" id="meduim" />
-                        <Label htmlFor="meduim">Medium</Label>
+                        <RadioGroupItem value="medium" id="medium" />
+                        <Label htmlFor="medium">Medium</Label>
                       </div>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="low" id="low" />

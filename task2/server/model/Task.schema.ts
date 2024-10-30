@@ -6,8 +6,8 @@ const stripTimeFromDate = (date: Date): Date => {
 
 const taskSchema = new mongoose.Schema(
   {
-    title: { type: String },
-    date: { type: Date, default: () => stripTimeFromDate(new Date()) },
+    title: { type: String, require },
+    date: { type: String, require },
     priority: {
       type: String,
       enum: ["high", "medium", "low"],

@@ -37,9 +37,9 @@ taskRouter.post("/", verifyToken, checkAdmin, async (req: any, res: any) => {
       title: body.title,
       date: body.date,
       priority: body.priority,
-      stage: body.stage,
       team: body.team,
     });
+    console.log(task);
     const savedTask = await task.save();
 
     user.tasks = user.tasks

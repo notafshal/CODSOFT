@@ -14,8 +14,10 @@ userRouter.get("/", async (req: Request, res: Response) => {
         select: "username role",
       },
     });
+
     res.status(200).json(user);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: err });
   }
 });
