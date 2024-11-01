@@ -26,13 +26,6 @@ export default function Navbar() {
           <span className="p-2 text-white bg-blue-600 rounded-full">
             Task-Trail
           </span>
-          <div className="flex">
-            <Input
-              className="relative w-72 rounded-full"
-              placeholder="Search...."
-            />
-            <CiSearch className="text-xl my-2 -mx-7" />
-          </div>
         </div>
         <div className="hover:cursor-pointer">
           {user ? (

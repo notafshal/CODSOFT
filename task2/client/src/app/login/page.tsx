@@ -28,8 +28,8 @@ export default function Login() {
     try {
       const loggedIn = await loginUser(userData);
       if (loggedIn) {
-        const { token, id, username, email, role } = loggedIn;
-        setUser({ id, username, email, role, token });
+        const { token, id, username, email, isAdmin } = loggedIn;
+        setUser({ id, username, email, isAdmin, token });
         toast({
           title: "Logged in successfully",
           description: "Thank you for checking in. Please complete your tasks",

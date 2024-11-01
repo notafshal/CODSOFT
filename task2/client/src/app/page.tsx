@@ -1,12 +1,19 @@
 "use client";
 
 import Sidebar from "@/components/Sidebar";
+import { useAuth } from "./context/AuthContext";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
-  return (
-    <>
-      <Sidebar />
-      This is mainPage
-    </>
-  );
+  const router = useRouter();
+  const { user } = useAuth();
+  useEffect(() => {
+    if (!user) {
+      router.push("/login");
+    } else {
+      router.push("/tasks");
+    }
+  }, [user, router]);
+  return <></>;
 }

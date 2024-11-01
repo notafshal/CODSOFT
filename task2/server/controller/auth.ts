@@ -17,7 +17,7 @@ auth.post("/login", async (req: any, res: any) => {
   const userToken = {
     email: user.email,
     id: user._id,
-    isRole: user.isRole,
+    isAdmin: user.isAdmin,
   };
   const jwtSecret = process.env.JWT_KEY || "defaultSecret";
   const token = jwt.sign(userToken, jwtSecret, { expiresIn: "7d" });
@@ -26,7 +26,7 @@ auth.post("/login", async (req: any, res: any) => {
     email: user.email,
     username: user.username,
     id: user._id,
-    isRole: user.isRole,
+    isAdmin: user.isAdmin,
   });
 });
 

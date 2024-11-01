@@ -19,6 +19,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/app/context/AuthContext";
 import createActivity from "@/app/api/createActivity";
+import { toast } from "@/hooks/use-toast";
 
 export default function TaskPage() {
   const params = useParams();
@@ -41,18 +42,32 @@ export default function TaskPage() {
     };
     fetchSingleTask();
   }, [taskId]);
-  const addActivity = () => {
-    const activityData = {
-      status: status,
-      activityText: textActivity,
-      date: Date.now(),
-      doneBy: user?.id,
-      taskId: taskId,
-      token: user?.token,
-    };
-    createActivity(activityData);
+  const addActivity = async () => {
+    try {
+      const activityData = {
+        status: status,
+        activityText: textActivity,
+        date: Date.now(),
+        doneBy: user?.id,
+        taskId: taskId,
+        token: user?.token,
+      };
+      const newActivity = await createActivity(activityData);
+      setTask((prevTask: any) => ({
+        ...prevTask,
+        activities: [...prevTask.activities, newActivity],
+      }));
+      setTextActivity("");
+      setStatus("");
+      toast({
+        title: "Activity added",
+        description: "Your activity was added successfully.",
+      });
+    } catch (err) {
+      console.error("Error adding activity:", err);
+    }
   };
-  console.log(task);
+
   if (!task) {
     return (
       <div className="flex h-screen">
@@ -61,7 +76,16 @@ export default function TaskPage() {
       </div>
     );
   }
-
+  const canPostActivity = task.team.some(
+    (member: { id: string }) => member.id === user?.id
+  );
+  if (!canPostActivity) {
+    toast({
+      title: "Cannot post",
+      description:
+        "You are not assigned to this task and cannot post activities.",
+    });
+  }
   return (
     <div className="flex h-screen">
       <Sidebar />
@@ -90,66 +114,73 @@ export default function TaskPage() {
                 </div>
               </div>
               <div className="w-1/2">
-                Content activity
-                <div className=" flex flex-col gap-4">
-                  <RadioGroup
-                    defaultValue="option-one"
-                    className="grid grid-cols-3"
-                    onValueChange={(value) => setStatus(value)}
-                  >
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="assigned" id="assigned" />
-                      <Label htmlFor="assigned">Assigned</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="started" id="started" />
-                      <Label htmlFor="started">Started</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="in progress" id="in progress" />
-                      <Label htmlFor="in progress">In progress</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="bug" id="bug" />
-                      <Label htmlFor="bug">Bug</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="commented" id="commented" />
-                      <Label htmlFor="commented">Commented</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="completed" id="completed" />
-                      <Label htmlFor="completed">Completed</Label>
-                    </div>
-                  </RadioGroup>
-                  <Label htmlFor="activityText">What did You do?</Label>{" "}
-                  <Textarea
-                    value={textActivity}
-                    onChange={(e) => setTextActivity(e.target.value)}
-                  />
-                  <Button
-                    className="bg-blue-500 text-white hover:text-black"
-                    onClick={addActivity}
-                  >
-                    Add
-                  </Button>
-                </div>
+                {canPostActivity ? <p>Content activity</p> : <p></p>}
+                {canPostActivity && (
+                  <div className=" flex flex-col gap-4">
+                    <RadioGroup
+                      defaultValue="option-one"
+                      className="grid grid-cols-3"
+                      onValueChange={(value) => setStatus(value)}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="assigned" id="assigned" />
+                        <Label htmlFor="assigned">Assigned</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="started" id="started" />
+                        <Label htmlFor="started">Started</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="in progress" id="in progress" />
+                        <Label htmlFor="in progress">In progress</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="bug" id="bug" />
+                        <Label htmlFor="bug">Bug</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="commented" id="commented" />
+                        <Label htmlFor="commented">Commented</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="completed" id="completed" />
+                        <Label htmlFor="completed">Completed</Label>
+                      </div>
+                    </RadioGroup>
+                    <Label htmlFor="activityText">What did You do?</Label>{" "}
+                    <Textarea
+                      value={textActivity}
+                      onChange={(e) => setTextActivity(e.target.value)}
+                    />
+                    <Button
+                      className="bg-blue-500 text-white hover:text-black"
+                      onClick={addActivity}
+                    >
+                      Add
+                    </Button>
+                  </div>
+                )}
               </div>
             </CardContent>
             <CardFooter>
               <div>
-                {task.activities.map((activity: any) => (
-                  <div key={activity.id}>
-                    <div className="flex flex-col gap-2">
-                      <p> {activity.status}</p>
-                      <p>
-                        {" "}
-                        {activity.activityText}--
-                        {activity.doneBy}
-                      </p>
+                {task.activities.map((activity: any) => {
+                  // Find the username by matching doneBy with team member ID
+                  const member = task.team.find(
+                    (member: any) => member.id === activity.doneBy
+                  );
+                  return (
+                    <div key={activity.id}>
+                      <div className="flex flex-col gap-2">
+                        <p>{activity.status}</p>
+                        <p>
+                          {activity.activityText} -{" "}
+                          {member?.username || "Unknown User"}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </CardFooter>
           </Card>

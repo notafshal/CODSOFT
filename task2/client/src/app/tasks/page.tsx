@@ -29,7 +29,18 @@ export default function Tasks() {
     };
     fetchData();
   }, []);
-
+  const priorityColor = (priority: string) => {
+    switch (priority) {
+      case "high":
+        return "bg-red-500";
+      case "medium":
+        return "bg-orange-500";
+      case "low":
+        return "bg-green-500";
+      default:
+        "bg-gray-500";
+    }
+  };
   return (
     <div className="flex h-screen">
       <Sidebar />
@@ -44,7 +55,12 @@ export default function Tasks() {
                     <CardDescription>{task.date}</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p>Priority: {task.priority}</p>
+                    <p> Priority:</p>
+                    <p
+                      className={`w-4 h-4 rounded-full ${priorityColor(
+                        task.priority
+                      )}`}
+                    ></p>
                     <p>Stage: {task.stage}</p>
                   </CardContent>
                   <CardFooter className="flex justify-between">

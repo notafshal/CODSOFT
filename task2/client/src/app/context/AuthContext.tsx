@@ -6,7 +6,7 @@ import { useState, createContext, useContext } from "react";
 interface User {
   id: string | null;
   username: string | null;
-  role: number | null;
+  isAdmin: number | null;
   token: string;
 }
 interface AuthContextType {
