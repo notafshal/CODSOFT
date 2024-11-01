@@ -17,7 +17,7 @@ export default function Sidebar() {
   if (!user) {
     router.push("/login");
   }
-  console.log(user);
+
   return (
     <>
       {user?.isAdmin === 1 ? (
