@@ -44,6 +44,7 @@ export default function TaskPage() {
   }, [taskId]);
   const addActivity = async () => {
     try {
+      const newStatus = status === "completed" ? "completed" : "in progress";
       const activityData = {
         status: status,
         activityText: textActivity,
@@ -51,6 +52,7 @@ export default function TaskPage() {
         doneBy: user?.id,
         taskId: taskId,
         token: user?.token,
+        taskStage: newStatus,
       };
       const newActivity = await createActivity(activityData);
       setTask((prevTask: any) => ({
@@ -91,7 +93,6 @@ export default function TaskPage() {
       <Sidebar />
 
       <div className="flex-grow overflow-y-auto p-4">
-        Product page
         <div>
           <Card>
             <CardHeader className="my-2">

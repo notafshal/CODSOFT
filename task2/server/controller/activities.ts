@@ -42,9 +42,19 @@ activitiesRouter.post("/", verifyToken, async (req, res): Promise<void> => {
       task: taskId,
     });
     activities.save();
+    let newTaskStage = "preceding";
+    if (status === "completed") {
+      newTaskStage = "completed";
+    } else if (
+      status === "in progress" ||
+      status === "started" ||
+      status === "bug"
+    ) {
+      newTaskStage = "in progress";
+    }
     const updatedTask = await tasksModel.findByIdAndUpdate(
       taskId,
-      { $push: { activities: activities.id } },
+      { $push: { activities: activities.id }, $set: { stage: newTaskStage } },
       { new: true }
     );
 
