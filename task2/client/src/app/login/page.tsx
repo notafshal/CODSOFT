@@ -23,6 +23,7 @@ export default function Login() {
   const { setUser } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
+
   const handelLogin = async () => {
     const userData = { username: username, password: password };
     try {
@@ -36,8 +37,23 @@ export default function Login() {
         });
         router.push("/");
       }
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      if (!username) {
+        toast({
+          title: "Username is missing",
+          description: "Please provided username",
+        });
+      }
+      if (!password) {
+        toast({
+          title: "Password is missing",
+          description: "Please provided password",
+        });
+      }
+      toast({
+        title: "Login failed",
+        description: err.message || "An error occurred during login",
+      });
     }
   };
 
@@ -57,6 +73,7 @@ export default function Login() {
                 onChange={(e) => setUsername(e.target.value)}
               />
               <Input
+                type="password"
                 placeholder="your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

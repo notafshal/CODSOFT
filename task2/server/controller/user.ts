@@ -30,8 +30,12 @@ userRouter.get("/:id", (req, res) => {
 
 userRouter.post("/register", async (req: any, res: any): Promise<void> => {
   const { username, email, password, role, isAdmin } = req.body;
-  console.log(req.body);
   const existingUser = await UserModel.findOne({ email });
+  if (!username || !email || !password || !role) {
+    return res
+      .status(400)
+      .json({ message: "Please fill all the required Credentials" });
+  }
   if (existingUser) {
     return res.status(400).json({ error: "Email already Exist" });
   }

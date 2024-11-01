@@ -13,7 +13,13 @@ const registerUser = (userData: RegisterationUser) => {
         console.log(result);
       }
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      if (err.response && err.response.data) {
+        throw new Error(err.response.data.message || "Registration failed");
+      } else {
+        throw new Error("An unknown error occurred");
+      }
+    });
 };
 
 export default registerUser;

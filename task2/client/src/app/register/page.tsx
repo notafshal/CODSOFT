@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import registerUser from "../api/registerUser";
 import { useRouter } from "next/navigation";
+import { toast } from "@/hooks/use-toast";
 
 export default function Register() {
   const [username, setUsername] = useState<string>("");
@@ -27,6 +28,13 @@ export default function Register() {
       password: password,
       role: role,
     };
+    if (!username || !email || !password || !role) {
+      toast({
+        title: "Registration failed",
+        description: "All fields are required.",
+      });
+      return;
+    }
     try {
       registerUser(userData);
       router.push("/");
@@ -35,7 +43,10 @@ export default function Register() {
       setUsername("");
       setRole("");
     } catch (err: any) {
-      console.log(err);
+      toast({
+        title: "Registration failed",
+        description: err.message || "An error occurred during registration.",
+      });
     }
   };
 
@@ -70,6 +81,7 @@ export default function Register() {
 
               <Label htmlFor="password">Password</Label>
               <Input
+                type="password"
                 placeholder="your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

@@ -15,9 +15,12 @@ const loginUser = async (userData: LoginData) => {
     if (result.status === 200) {
       return result.data;
     }
-  } catch (err) {
-    console.error(err);
-    throw err;
+  } catch (err: any) {
+    if (err.response && err.response.data) {
+      throw new Error(err.response.data.message || "Login failed");
+    } else {
+      throw new Error("An unknown error occurred");
+    }
   }
 };
 export default loginUser;

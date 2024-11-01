@@ -12,7 +12,7 @@ auth.post("/login", async (req: any, res: any) => {
     user === null ? false : bcrypt.compare(password, user.password);
 
   if (!(user && passwordCorrect)) {
-    return res.status(401).json({ error: "invalid email or password" });
+    return res.status(401).json({ message: "invalid email or password" });
   }
   const userToken = {
     email: user.email,

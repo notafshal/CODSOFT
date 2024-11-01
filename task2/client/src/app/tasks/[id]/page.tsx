@@ -45,7 +45,7 @@ export default function TaskPage() {
         const taskData: any = await getSingleTask(taskId);
         setTask(taskData);
       } catch (err) {
-        console.error(err);
+        console.log(err);
       }
     };
     fetchSingleTask();
@@ -151,14 +151,14 @@ export default function TaskPage() {
             </CardHeader>
             <CardContent className="flex">
               <div className="w-1/2">
-                <p className="flex">
+                <div className="flex">
                   Priority:
                   <p
                     className={`w-4 h-4 rounded-full mt-1 mx-2 ${priorityColor(
                       task.priority
                     )}`}
                   ></p>
-                </p>
+                </div>
                 <p className="flex">
                   Stage:
                   <span className="mt-1 mx-2 ">{stageSign(task.stage)}</span>

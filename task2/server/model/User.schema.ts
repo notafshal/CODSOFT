@@ -2,10 +2,10 @@ import mongoose, { Schema } from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    username: { type: String },
-    email: { type: String },
-    password: { type: String },
-    role: { type: String },
+    username: { type: String, unique: true, require },
+    email: { type: String, unique: true, require },
+    password: { type: String, require },
+    role: { type: String, require },
     isAdmin: { type: Number, default: 0 }, //Admin ->1 users->0
     tasks: [{ type: Schema.Types.ObjectId, ref: "task" }],
   },
