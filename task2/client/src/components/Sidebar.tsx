@@ -10,10 +10,25 @@ import { IoCheckmarkDoneCircle } from "react-icons/io5";
 import Link from "next/link";
 import { useAuth } from "@/app/context/AuthContext";
 import { useRouter } from "next/navigation";
+import { GiRoad } from "react-icons/gi";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+import { useToast } from "@/hooks/use-toast";
 
 export default function Sidebar() {
-  const { user } = useAuth();
   const router = useRouter();
+  const { user, logout } = useAuth();
+  const { toast } = useToast();
+
+  const handleLogout = () => {
+    logout();
+    toast({
+      variant: "destructive",
+      title: "Logged Out Successfully",
+      description: "Thank You For your time",
+    });
+  };
   if (!user) {
     router.push("/login");
   }
@@ -22,6 +37,26 @@ export default function Sidebar() {
     <>
       {user?.isAdmin === 1 ? (
         <div className="sticky top-0 z-10 w-1/5 h-screen  bg-neutral-100">
+          <div className="w-2/3 flex  gap-20 mx-auto my-2">
+            <p className="p-3 w-28 text-center font-semibold bg-yellow-300 rounded-full flex justify-center items-center gap-1">
+              Task-Trail
+              <span>
+                <GiRoad />
+              </span>
+            </p>
+          </div>
+          <div className="hover:cursor-pointer mx-6 my-2">
+            {user ? (
+              <Avatar onClick={handleLogout}>
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>UA</AvatarFallback>
+              </Avatar>
+            ) : (
+              <Link href="/login">
+                <p>LogIn</p>
+              </Link>
+            )}
+          </div>
           <div className="flex flex-col gap-2  text-lg mx-4">
             <Link
               href="/dashboard"
@@ -58,6 +93,26 @@ export default function Sidebar() {
         </div>
       ) : (
         <div className="sticky top-0 z-10 w-1/5 h-screen  bg-neutral-100">
+          <div className="w-2/3 flex  gap-20 mx-auto my-2">
+            <p className="p-3 w-28 text-center font-semibold bg-yellow-300 rounded-full flex justify-center items-center gap-1">
+              Task-Trail
+              <span>
+                <GiRoad />
+              </span>
+            </p>
+          </div>
+          <div className="hover:cursor-pointer mx-6 my-2">
+            {user ? (
+              <Avatar onClick={handleLogout}>
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>UA</AvatarFallback>
+              </Avatar>
+            ) : (
+              <Link href="/login">
+                <p>LogIn</p>
+              </Link>
+            )}
+          </div>
           <div className="flex flex-col gap-2  text-lg mx-4">
             <Link
               href="/tasks"

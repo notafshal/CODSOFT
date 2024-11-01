@@ -14,13 +14,18 @@ function AdminChart() {
     };
     fetchTask();
   }, []);
-  console.log(chartData);
+  const statusData = chartData.map((status) => status.stage);
+  const uniqueStages = [...new Set(statusData)];
+  const statusCounts = uniqueStages.map(
+    (stage) => statusData.filter((status) => status === stage).length
+  );
+
   const data = {
-    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+    labels: [...uniqueStages],
     datasets: [
       {
-        label: "Votes",
-        data: [12, 19, 3, 5, 2, 3],
+        label: "Status",
+        data: statusCounts,
         backgroundColor: [
           "rgba(255, 99, 132, 0.6)",
           "rgba(54, 162, 235, 0.6)",

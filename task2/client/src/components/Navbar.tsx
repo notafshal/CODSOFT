@@ -1,10 +1,9 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
-import { CiSearch } from "react-icons/ci";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/app/context/AuthContext";
 import Link from "next/link";
+import { GiRoad } from "react-icons/gi";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Navbar() {
@@ -21,11 +20,14 @@ export default function Navbar() {
   };
   return (
     <div>
-      <div className="flex justify-between my-2 mx-2 sticky">
-        <div className="w-2/3 flex gap-20">
-          <span className="p-2 text-white bg-blue-600 rounded-full">
+      <div className="flex justify-between  sticky bg-blue-500 p-3">
+        <div className="w-2/3 flex  gap-20">
+          <p className="p-3 w-28 text-center font-semibold bg-yellow-300 rounded-full flex justify-center items-center gap-1">
             Task-Trail
-          </span>
+            <span>
+              <GiRoad />
+            </span>
+          </p>
         </div>
         <div className="hover:cursor-pointer">
           {user ? (
