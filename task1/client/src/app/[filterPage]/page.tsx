@@ -1,5 +1,6 @@
 "use client";
 
+import Filter from "@/components/Filter";
 import ProductCard from "@/components/ProductCard";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
@@ -42,16 +43,19 @@ function FilterPage() {
             {author ? author : category}
           </span>
         </h1>
-        {filteredItems ? (
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          filteredItems.map((data: any) => (
-            <div key={data._id}>
-              <ProductCard data={data} />
-            </div>
-          ))
-        ) : (
-          <p>Loading...</p>
-        )}
+        <Filter />
+        <div className=" grid grid-cols-3 gap-2">
+          {filteredItems ? (
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            filteredItems.map((data: any) => (
+              <div key={data._id}>
+                <ProductCard data={data} />
+              </div>
+            ))
+          ) : (
+            <p>Loading...</p>
+          )}
+        </div>
       </div>
     </>
   );

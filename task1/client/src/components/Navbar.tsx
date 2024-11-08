@@ -8,6 +8,12 @@ import { useAuth } from "@/app/context/AuthContext";
 import { useCart } from "@/app/context/CartContext";
 
 import Search from "./Search";
+import {
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const Navbar = () => {
   const { user, setUser } = useAuth();
@@ -47,7 +53,19 @@ const Navbar = () => {
           </div>
           <div>
             {user ? (
-              <FcBusinessman className="text-2xl" onClick={handleSignout} />
+              <Select>
+                <SelectTrigger className="w-fit">
+                  <SelectValue
+                    placeholder={<FcBusinessman className="text-2xl" />}
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  <Link href="/profile">
+                    <p>Profile</p>
+                  </Link>
+                  <p onClick={handleSignout}>logout</p>
+                </SelectContent>
+              </Select>
             ) : (
               <Link href="/login">
                 <p>Login</p>

@@ -67,7 +67,6 @@ const Filter = () => {
     category,
     id,
   }));
-  console.log(uniqueAuthors);
 
   return (
     <>
