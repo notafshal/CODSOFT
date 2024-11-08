@@ -42,25 +42,35 @@ function Profile() {
   }, [user]);
 
   return (
-    <div>
-      <Card>
-        <CardHeader>
-          <CardTitle>Profile</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div>
-            <p>
-              Username: <span>{userData?.username}</span>
-            </p>
-            <p>
-              email: <span>{userData?.email}</span>
-            </p>
-          </div>
-        </CardContent>
-        <CardFooter>
-          <Button>Edit</Button>
-        </CardFooter>
-      </Card>
+    <div className="w-screen  h-screen bg-neutral-300">
+      <div className="flex justify-center ">
+        <Card className="w-fit my-36">
+          <CardHeader>
+            <CardTitle>Profile</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col gap-3">
+              <p>
+                Username: <span>{userData?.username}</span>
+                <span className="text-xs underline text-blue-500 mx-3">
+                  Edit
+                </span>
+              </p>
+              <p>
+                email: <span>{userData?.email}</span>{" "}
+                <span className="text-xs underline text-blue-500 mx-3">
+                  Edit
+                </span>
+              </p>
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button className="bg-red-500 hover:bg-red-700">
+              Delete Account
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
     </div>
   );
 }
