@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import getSingleTask from "@/app/api/getSingleTask";
@@ -74,7 +75,7 @@ export default function TaskPage() {
         description: "Your activity was added successfully.",
       });
     } catch (err) {
-      console.error("Error adding activity:", err);
+      console.log("Error adding activity:", err);
     }
   };
   const priorityColor = (priority: string) => {

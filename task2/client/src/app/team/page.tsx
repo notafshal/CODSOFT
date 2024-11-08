@@ -1,18 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import Sidebar from "@/components/Sidebar";
 import React, { useEffect, useState } from "react";
 import getUsers from "../api/getUsers";
-
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 
 function Team() {
   const [userData, setUserData] = useState<any>();

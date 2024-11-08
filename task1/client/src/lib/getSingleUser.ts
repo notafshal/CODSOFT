@@ -1,11 +1,19 @@
 import axios from "axios";
-import React, { ReactNode } from "react";
 
-function getSingleUser({ params }: { params: ReactNode | null | undefined }) {
+async function getSingleUser({
+  params,
+}: {
+  params: { id: string };
+}): Promise<void> {
   try {
-    axios.get(`http://localhost:5000/api/users/${params.id}`);
+    const response = await axios.get(
+      `http://localhost:5000/api/users/${params.id}`
+    );
+    console.log(response);
+    return response.data;
   } catch (err) {
     console.error(err);
+    throw err;
   }
 }
 

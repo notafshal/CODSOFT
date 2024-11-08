@@ -24,9 +24,7 @@ app.use("/api/cart", cartRouter);
 app.use("/api/users", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/auth/", auth);
-app.get("/", (req, res) => {
-  res.send("hello");
-});
+
 app.listen(process.env.PORT, () =>
   console.log(`Server is running on port ${process.env.PORT}`)
 );

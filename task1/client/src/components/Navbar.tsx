@@ -60,7 +60,7 @@ const Navbar = () => {
                   />
                 </SelectTrigger>
                 <SelectContent>
-                  <Link href="/profile">
+                  <Link href={`/profile/${user.id}`}>
                     <p>Profile</p>
                   </Link>
                   <p onClick={handleSignout}>logout</p>
