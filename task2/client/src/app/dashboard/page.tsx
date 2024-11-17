@@ -31,6 +31,7 @@ export default function Dashboard() {
   const [deadline, setDeadLine] = useState<Date | null>(null);
   const [priority, setPriority] = useState<string>("");
   const [teammembers, setTeammembers] = useState<string[]>([]);
+  const [error, setError] = useState<string>("");
   const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
   const router = useRouter();
   const { user } = useAuth();
@@ -70,8 +71,12 @@ export default function Dashboard() {
         description: "New Task created and assigned to team members",
       });
       router.push("/dashboard");
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      setError(err);
+      toast({
+        title: "Error!!!",
+        description: `${error}`,
+      });
     }
   };
   return (

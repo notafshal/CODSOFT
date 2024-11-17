@@ -13,7 +13,7 @@ function Team() {
       try {
         const fetchedUserData = await getUsers();
         setUserData(fetchedUserData);
-      } catch (err) {
+      } catch (err: any) {
         setError(err);
       }
     };

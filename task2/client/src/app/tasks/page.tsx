@@ -19,16 +19,19 @@ import Link from "next/link";
 import { LuListTodo } from "react-icons/lu";
 import { RiProgress1Line } from "react-icons/ri";
 import { FaCheckCircle } from "react-icons/fa";
+import { toast } from "@/hooks/use-toast";
 
 export default function Tasks() {
   const [tasks, setTasks] = useState<any[]>([]);
+  const [error, setError] = useState<string>("");
   useEffect(() => {
     const fetchData = async () => {
       try {
         const fetchedTask = await getTasks();
         setTasks(fetchedTask);
-      } catch (err) {
-        console.log(`${err}`);
+      } catch (err: any) {
+        setError(err);
+        toast({ title: "Error!!!", description: `${error}` });
       }
     };
     fetchData();

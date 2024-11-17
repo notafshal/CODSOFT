@@ -38,6 +38,7 @@ export default function TaskPage() {
   const [task, setTask] = useState<any>(null);
   const [textActivity, setTextActivity] = useState<string>("");
   const [status, setStatus] = useState<string>("");
+  const [error, setError] = useState<string>("");
   const { user } = useAuth();
 
   useEffect(() => {
@@ -45,8 +46,12 @@ export default function TaskPage() {
       try {
         const taskData: any = await getSingleTask(taskId);
         setTask(taskData);
-      } catch (err) {
-        console.log(err);
+      } catch (err: any) {
+        setError(err);
+        toast({
+          title: "Error!!!",
+          description: `${error}`,
+        });
       }
     };
     fetchSingleTask();
