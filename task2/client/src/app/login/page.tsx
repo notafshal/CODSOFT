@@ -21,6 +21,7 @@ import { useToast } from "@/hooks/use-toast";
 export default function Login() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
   const { setUser } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
@@ -39,6 +40,8 @@ export default function Login() {
         router.push("/");
       }
     } catch (err: any) {
+      setError(err);
+
       if (!username) {
         toast({
           title: "Username is missing",
@@ -55,6 +58,12 @@ export default function Login() {
         title: "Login failed",
         description: err.message || "An error occurred during login",
       });
+      if (error) {
+        toast({
+          title: "Error",
+          description: `${error}`,
+        });
+      }
     }
   };
 
