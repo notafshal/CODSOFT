@@ -7,23 +7,25 @@ import getUsers from "../api/getUsers";
 
 function Team() {
   const [userData, setUserData] = useState<any>();
+  const [error, setError] = useState<string>("");
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const fetchedUserData = await getUsers();
         setUserData(fetchedUserData);
       } catch (err) {
-        console.error(err);
+        setError(err);
       }
     };
     fetchUser();
   }, []);
-  console.log(userData);
+
   return (
     <div className="flex h-screen">
       <Sidebar />
 
       <div className="flex-grow overflow-y-auto p-4">
+        <div>{error}</div>
         <p className="text-center font-semibold text-lg">Team members</p>
         <div>
           <div className="my-10">
